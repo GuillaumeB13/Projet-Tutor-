@@ -1,0 +1,54 @@
+
+section1{
+padding:15px;
+float: left;
+width:500px;
+height:600px;
+margin-left:30px;
+
+border:1px solid black;
+margin-right:200px;
+}
+section2{
+float: left;
+border:1px solid black;
+width:650px;
+height:150px;
+margin-right:250px;
+margin-top:30px;
+
+}
+
+section3{
+float: left;
+border:1px solid black;
+margin-top:150px;
+margin-left:100px;
+margin-right:300px;
+width:450px;
+height:150px;
+}
+
+.nom{
+
+margin-left:40px;
+display:inline;
+}
+.titre{
+
+margin-left:100px;
+
+}
+
+.prenom{
+margin-left:20px;
+display:inline;
+}
+.save{
+margin-top:60px;
+margin-left:80%;
+}
+.yes{
+margin-top:60px;
+margin-left:80%;
+}
