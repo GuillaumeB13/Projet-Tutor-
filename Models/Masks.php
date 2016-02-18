@@ -2,7 +2,7 @@
 namespace Models;
 
 /**
- * @Entity @Table(schema="myocr",name="Masks")
+ * @Entity @Table(name="Masks")
  **/
 /**@UniqueEntity("nom_masks", "Ce nom de masque existe déjà.")**/
 class Masks

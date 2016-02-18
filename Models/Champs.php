@@ -1,7 +1,7 @@
 <?php
 namespace Models;
 /**
- * @Entity @Table(schema="myocr",name="Champs")
+ * @Entity @Table(name="Champs")
  *@UniqueEntity("nom_Champs", "Ce nom de champ existe déjà.")**/
 class Champs{
   /** @Id @Column(type="integer", nullable=false) @GeneratedValue **/

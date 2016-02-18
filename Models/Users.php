@@ -1,7 +1,7 @@
 <?php
 namespace Models;
 /**
- * @Entity @Table(schema="myocr", name="Users")
+ * @Entity @Table(name="Users")
  **/
 /**@UniqueEntity("login", "Ce nom d'utilisateur existe déjà.")**/
 class Users

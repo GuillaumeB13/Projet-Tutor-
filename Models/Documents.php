@@ -1,10 +1,9 @@
 <?php
 namespace Models;
-// MyOCR/Documents.php
 /**
  *@InheritanceType("SINGLE_TABLE")
  *@DiscriminatorColumn(name="type_doc", type="string")
- * @Entity @Table(schema="myocr",name="Documents")
+ * @Entity @Table(name="Documents")
  **/
 /**@UniqueEntity("nom_doc", "Ce nom de masque existe déjà.")**/
 class Documents
