@@ -20,7 +20,6 @@ CREATE TABLE IF NOT EXISTS Masks
 
 );
 
-CREATE TYPE type as ENUM('Nom','Prenom','Photo','Signature','CNI','DateNaissance','Taille','Sexe','NoSS','Adresse','Ville','CodePostal');
 
 CREATE TABLE IF NOT EXISTS Champs 
 (
