@@ -1,34 +1,35 @@
 <!DOCTYPE html>
-<?php
-session_start(); 
-ini_set('display_errors','off');
-if(isset($_POST['OK']))
-{
-	$login = $_POST['login'];	
-	$password = $_POST['password'];	
-if($login&&$password)
+	<?php
+	include_once 'config.php';
+	ini_set('display_errors','off');
+	if(isset($_POST['OK']))
 	{
-		
-		$connect = mysql_connect('localhost','root','');
-		mysql_select_db('myocr');
-		
-		$query=mysql_query("SELECT * FROM identification WHERE (login='$login'and password='SHA1($password'))");
-		$rows=mysql_num_rows($query);		
-		if ($rows==0)
-		{		
-			header('Location:Traitement.php');		
-		}else echo "pseudo ou password incorrect";
+		$login = $_POST['login'];	
+		$password = $_POST['password'];	
+		if($login&&$password)
+		{
+			
+			$connect=$PDO_BDD->query("SELECT * FROM Users WHERE login LIKE '$login'and pwd LIKE '$password' ")->fetchAll();
+
+		    ///////////RAJOUTER UN MESSAGE SI LOGIN OU MDP INVALIDE /////////////
+		    if(count($connect) == 1)
+		    {	
+				session_start(); 
+				header('Location: /OCR/php/Traitement.php');		
+			}
+			else echo "Identifiants incorrect";
+		}
+		else echo"Remplissez tous les champs";
 	}
-	else echo"Remplissez tous les champs";
-}
 ?>
-<head>
-<HR align=center size=1 width="50%">
-<center><strong><big><big><big>MyOCR</big></big></big></strong></center>
-<HR align=center size=1 width="50%">
-</head>
+<html>
+	<head>
+		<HR align=center size=1 width="50%">
+		<center><strong><big><big><big>MyOCR</big></big></big></strong></center>
+		<HR align=center size=1 width="50%">
+	</head>
 	<body>
-	<form method="POST" action="identification.php"> 
+	<form method="POST" action="/OCR/php/Identification.php"> 
 	<div style="padding:10px; width:300px; margin:auto; border:1px solid ; ">  <!-- cadre bordure 1pxl, espacement 10 pxl, taille du cadre 300 pxl -->	
 			
 			<p>login 

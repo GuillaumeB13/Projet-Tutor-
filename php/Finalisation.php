@@ -1,30 +1,68 @@
 <!DOCTYPE html>
 <?php
-
+	include_once 'config.php';
+	session_start();
 ?>
-<head>
-<link rel="stylesheet" href="Finalisation.css">
-</head>
-<body>
-<div class="titre"> 
-	<h2>Aperçu des champs récupérés</h2></div>
-	<section1>
-	<form action="" method="post">
+<html>
+	<head>
+		<meta charset="UTF-8">
+	    <title>Finalisation</title>
+		<link rel="stylesheet" href="Finalisation.css">
+	</head>
+	<body>
+		<div class="titre"> 
+			<h2>AperÃ§u des champs rÃ©cupÃ©rÃ©s</h2>
+		</div>
+		<section>
+			<form action="" method="post">
+				<?php
+					// requete php pour recupÃ©rer nom des type de champs Ã  rÃ©cupÃ©rer en BDD (correspond aux noeuds dans le doc xml)
+					$req=$PDO_BDD->query("SELECT type_Champs FROM `Champs` WHERE id_Masks=1")->fetchAll();
+					// stockages des types dans le tableau
+					$xml = simplexml_load_file('SavedData.xml'); // ouverture du XML
 
-	nom :
-	<div class="nom"> <input type="text" value="" name="nom"></div></br></br></br>
-	prenom :
-	<div class="prenom"> <input type="text" value="" name="prenom"></div></br>
-	</form>
-	</section1>
-	<section2>
-		<center><h2>Enregistrer les données récupérées ?</h2></center>
-		<div class="save"><input type="button" value="  Save  " name="save" ></div>
-	</section2>
-	<section3>
-	<center><h2>Recommencer le traitement</h2></center>
-	<div class="yes"><input type="button" value="  Yes  " name="yes" ></div>
-	</section3>
+					$var=array();
+					$champs=array();
 
-</body>
+					foreach($req as $ligne)
+					{
+						$var[] = $xml->$ligne['type_Champs'];
+						$champs[] = $ligne['type_Champs'];
+					}
+					
+					for($i=0;$i<sizeof($var);$i++)
+					{
+						if ($champs[$i]=="PhotoID" || $champs[$i]=="Signature")
+						{
+							$data=base64_decode($var[$i]);
+							$img=imagecreatefromstring($data);
+							imagepng($img);
+
+						}
+						else
+							echo "$champs[$i]".' '.'<input type="text" value="'.$var[$i].'" "> <br><br>';
+					}
+
+					//test
+  					$xml = new DOMDocument('1.0', 'utf-8');
+				   
+				    
+					$node = $xml->appendChild($xml->createElement("para"));
+					$node2 = $node->appendChild($xml->createElement("pacra","ee"));
+					$node3 = $node->appendChild($xml->createElement("parca","ddd"));
+
+  					$xml->save('nouveauFichier.xml');
+
+				?>
+			</form>
+		</section>
+		<section>
+			<center><h2>Enregistrer les donnÃ©es rÃ©cupÃ©rÃ©es ?</h2></center>
+			<div class="save"><input type="button" value="  Save  " name="save" ></div>
+		</section>
+		<section3>
+			<center><h2>Recommencer le traitement</h2></center>
+			<div class="yes"><input type="button" value="  Oui  " name="yes" ></div>
+		</section3>
+	</body>
 </html>

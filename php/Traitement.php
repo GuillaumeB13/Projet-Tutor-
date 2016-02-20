@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <?php
-
+	session_start();
 ?>
 <head>
 <link rel="stylesheet" href="Traitement.css">
