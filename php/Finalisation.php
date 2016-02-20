@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <?php
+	ob_start();
 	include_once 'config.php';
 	session_start();
 ?>
 <html>
 	<head>
-		<meta charset="UTF-8">
+		<meta charset='UTF-8'>
 	    <title>Finalisation</title>
 		<link rel="stylesheet" href="Finalisation.css">
 	</head>
@@ -55,7 +56,9 @@
 		</section>
 		<section>
 			<center><h2>Recommencer le traitement</h2></center>
-			<div class="yes"><input type="button" value="  Oui  " name="yes" ></div>
+			<form method="post">
+				<div class="yes"><input type="submit" value="  Oui  " name="yes" ></div>
+			</form>
 		</section>
 	</body>
 </html>
@@ -65,14 +68,18 @@
 	{
 		//test
 		$xml = new DOMDocument('1.0', 'utf-8');
-		$node = $xml->appendChild($xml->createElement("para"));
+		$node = $xml->appendChild($xml->createElement("Infp"));
 
 		foreach($_POST as $key=>$value)
 		{
 			$newNode=$node->appendChild($xml->createElement($key,$value));
 		}
-		$xml->save('nouveauFichier.xml');
+		$xml->save('SavedData.xml');
 	}
 
-
+	if(isset($_POST['yes']))
+	{
+		header('Location: /OCR/php/Traitement.php');
+	}
+	ob_flush();
 ?>

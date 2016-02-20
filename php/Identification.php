@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<?php
 	include_once 'config.php';
-	ini_set('display_errors','off');
+
 	if(isset($_POST['OK']))
 	{
 		$login = $_POST['login'];	
@@ -24,6 +24,8 @@
 ?>
 <html>
 	<head>
+		<meta charset='UTF_8'>
+		<title>Identification</title>
 		<HR align=center size=1 width="50%">
 		<center><strong><big><big><big>MyOCR</big></big></big></strong></center>
 		<HR align=center size=1 width="50%">

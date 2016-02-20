@@ -54,7 +54,7 @@ int main()
       info->InsertEndChild(element);
     }while(endFile!="f");
     // sauvegarde du document xml
-    XMLError eResult = xmlDoc.SaveFile("SavedData.xml");
+    XMLError eResult = xmlDoc.SaveFile("/var/www/html/OCR/php/SavedData.xml");
     // vérifie le bon déroulement
   }
   else 
