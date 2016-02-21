@@ -15,9 +15,11 @@
 		    if(count($connect) == 1)
 		    {	
 				session_start(); 
+				$_SESSION['login']=$login;
 				header('Location: /OCR/php/Traitement.php');		
 			}
-			else echo "Identifiants incorrect";
+			else 
+				echo "<script>alert(\"Erreur de connection : identifiant ou mot de passe incorrects.\")</script>";
 		}
 		else echo"Remplissez tous les champs";
 	}

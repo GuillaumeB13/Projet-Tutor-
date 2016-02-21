@@ -3,38 +3,78 @@
 	include_once 'config.php';
 	session_start();
 ?>
-<html>
-	<head>
-		<meta charset='UTF_8'>
-		<title> Traitement </title>
-		<link rel="stylesheet" href="Traitement.css"/>
-	</head>
-	<body>
-			<div class="titre1"><h2>Fenetre d'aperçu du scan</h2></div>
-
-			<h2>Paramétrage image</h2>
-
-		<section3>
-			<h3><center>Choix du type de document</center></h3>
-			<div class="menu">
-				<select name="select">
-					<option value="value1">Type du document à envoyer</option> 
-					<option value="value2">Carte Nationnale D'Identité</option>
-					<option value="value3">Dans la prochaine version ...</option>
-				</select>
-			</div>
-		</section3><br>
-
-		<form method="post">
-			<input type="submit" name="OCR" value="Lancer le traitement ?" />
-		</form>
-	</body>
-</html>
-
 <?php
-	if(isset($_POST['OCR']))
+	if (isset($_SESSION['login']))
 	{
-		exec('/var/www/html/OCR/php/script.sh');
-		header('Location: /OCR/php/Finalisation.php');
+		echo "
+		<html>
+			<head>
+				<meta charset='UTF-8'>
+				<title> Traitement </title>
+				<link rel=\"stylesheet\" href=\"Traitement.css\"/>
+			</head>
+			<body>
+				<form method =\"post\">
+					<input type="."submit"." value="."DÃ©connexion"." name="."deco"." > <br><br>
+				</form>
+					<div class=\"titre1\"><h2>Fenetre d'aperÃ§u de l'image</h2></div>
+
+					<h2>ParamÃ©trage image</h2>
+
+				<section3>
+					<h3><center>Choix du type de document</center></h3>
+					<div class=\"menu\">
+						<form method=\"post\">
+							<select name=\"select\">
+								<option value=\"vide\">Type du document Ã  envoyer</option>";
+
+										$req = $PDO_BDD->query("SELECT nom_Doc from Documents")->fetchAll();
+										foreach($req as $ligne)
+										{
+											echo '<option value='.$ligne['nom_Doc'].'>'.$ligne['nom_Doc'].'</option>';
+										}
+							echo "
+							</select>
+							<br><br>
+							<input type=\"submit\" name=\"OCR\" value=\"Lancer le traitement ?\" />
+						</form>
+					</div>
+				</section3>
+			</body>
+		</html>";
+
+
+		if(isset($_POST['OCR']))
+		{
+			if($_POST['select']=='vide')
+			{
+				alert("Veuillez renseignez le type de document");
+			}
+			else
+			{
+				$_SESSION['type_masque']=1;
+				exec('/var/www/html/OCR/php/script.sh');
+				header('Location: /OCR/php/Finalisation.php');
+			}
+		}
+		if(isset($_POST['deco']))
+		{
+			$_SESSION=array();
+			session_destroy();
+			header('Location: /OCR/php/Identification.php');
+		}
 	}
+	else 
+		echo " <html>
+					<head>
+						<meta charset='UTF-8'>
+					    <title>Finalisation</title>
+						<link rel="."stylesheet"." href="."Finalisation.css".">
+					</head>
+					<body>
+						<p> Connectez vous pour avoir accÃ©s Ã  cette partie du site. </p>
+						<br>
+						<a href="."/OCR/php/Identification.php"."> Se connecter !</a>
+					</body>
+				</html>";
 ?>
