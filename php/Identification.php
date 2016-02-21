@@ -47,23 +47,29 @@
 		<title>Identification</title>
 	</head>
 	<body>
-		<HR align=center size=1 width="50%">
-		<center><h1>MyOCR</h1></center>
-		<HR align=center size=1 width="50%">
+		<HR class="col-sm-offset-3" size=1 width="50%">
+		<h1 class="col-sm-offset-5">MyOCR</h1>
+		<HR class="col-sm-offset-3" size=1 width="50%"> <br><br><br>
 		<form method="POST" action="/OCR/php/Identification.php"> 
-			<div >
-				
-				<p>login 
-				<input type="text" name="login"></p>					
-				<p>mot de passe
-				<input type="password" name="password"></p>
 
-				<p>
-					<input type="submit" name="OK" value="      OK      " 	>
-					<input type="reset" name="Cancel" value="      Cancel      "  	>
-				</p>
-			</div>	
-		</form>		
+		<form class="form-horizontal">
+		  <div class="form-group row">
+		    <label class="col-sm-1 col-sm-offset-2 control-label">Login</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control col-sm-offset-3" name="login" >
+		    </div>
+		  </div>
+		  <div class="form-group row">
+		    <label for="inputPassword3" class="col-sm-1 col-sm-offset-2 control-label">Password</label>
+		    <div class="col-sm-4">
+		      <input type="password" class="form-control col-sm-offset-3" id="inputPassword2" placeholder="Password" name="password"><br>
+		    </div>
+		  </div>
+		  <div class="form-group row">
+		    <div class="col-sm-offset-2 col-sm-10">
+		      <button type="submit" class="btn btn-success col-sm-offset-3" name="OK">Se connecter</button>
+		    </div>
+		  </div>	
 															<!-- fin du formulaire -->
 	</body>
 </html>
