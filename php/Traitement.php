@@ -48,11 +48,32 @@
 		{
 			if($_POST['select']=='vide')
 			{
-				alert("Veuillez renseignez le type de document");
+				echo "<script> alert(\"Veuillez renseignez le type de document\")</script>";
 			}
 			else
 			{
-				$_SESSION['type_masque']=1;
+				$_SESSION['type_masque']=1; // pour le moment car seulement CI => aprés on mettra une requete SQL ect ...
+				$req=$PDO_BDD->query('SELECT type_Champs,x1,y1,x2,y2 from Champs where id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
+				$monfichier = fopen('/var/www/html/OCR/php/config/config.txt', 'r+');
+
+				$i=0;
+
+				foreach($req as $ligne)
+				{
+					$i++;
+					if($i < sizeof($req))
+					{
+						$txt=$ligne['type_Champs'].' '.$ligne['x1'].' '.$ligne['y1'].' '.$ligne['x2'].' '.$ligne['y2'].' '.'n'."\n";
+						fputs($monfichier, $txt);
+					}
+					else if($i == sizeof($req))
+					{
+						$txt=$ligne['type_Champs'].' '.$ligne['x1'].' '.$ligne['y1'].' '.$ligne['x2'].' '.$ligne['y2'].' '.'f'."\n";
+						fputs($monfichier, $txt);
+					}
+				}
+
+				fclose($monfichier);
 				exec('/var/www/html/OCR/php/script.sh');
 				header('Location: /OCR/php/Finalisation.php');
 			}

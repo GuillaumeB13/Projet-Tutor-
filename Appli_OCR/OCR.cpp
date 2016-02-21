@@ -1,4 +1,4 @@
-// Compilation du script : g++ test.cpp tinyxml2.cpp base64.cpp -o test.exe -ltesseract -llept -L./SFML-2.0-rc/lib/ -lsfml-graphics
+// Compilation du script : g++ OCR.cpp tinyxml2.cpp base64.cpp -o OCR.exe -ltesseract -llept -L./SFML-2.0-rc/lib/ -lsfml-graphics
 
 // export TESSDATA_PREFIX=/usr/share/tesseract-ocr/ => .bashrc 
 
@@ -20,8 +20,7 @@ using namespace sf;
 
 string content, endFile;
 unsigned int x1,x2,y1,y2;
-ofstream resFile("test.txt", ios::out);
-ifstream configFile("./config/config.txt", ios::in);
+ifstream configFile("/var/www/html/OCR/php/config.txt", ios::in);
 
 int main()
 {
@@ -68,7 +67,7 @@ int main()
 string fileToString(unsigned short x1, unsigned short y1, unsigned short x2, unsigned short y2)
 {
  // on lit l'image avec leptonica
-  Pix *image = pixRead("./img/ci.png");
+  Pix *image = pixRead("/var/www/html/OCR/php/img/ci.png");
   // on initialise l'api tesseract ocr (langue française, application de l'image récupéré)
   TessBaseAPI *api = new TessBaseAPI();
   api->Init("/usr/share/tesseract-ocr/tessdata", "fra");
@@ -89,13 +88,13 @@ string imageToBinary(unsigned short x1, unsigned short y1, unsigned short x2, un
 {
   // chargement de l'image
   Image imgBase,copyImg;
-  imgBase.loadFromFile("img/ci.png");
+  imgBase.loadFromFile("/var/www/html/OCR/php/img/ci.png");
   // initialisation de la copie et recopie de la zone
   copyImg.create(x2,y2);
   copyImg.copy(imgBase, 0, 0, sf::IntRect(x1,y1,x2,y2), false);
-  copyImg.saveToFile("img/copy.png");
+  copyImg.saveToFile("/var/www/html/OCR/php/img/copy.png");
   //ouverture de la copie de l'image en mode binaire
-  ifstream imgBin("img/copy.png", ios::binary);
+  ifstream imgBin("/var/www/html/OCR/php/img/copy.png", ios::binary);
   char c;
   // récupération de l'image en binaire
   string strResult;
