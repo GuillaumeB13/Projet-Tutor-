@@ -48,7 +48,7 @@
 	</head>
 	<body>
 		<HR class="col-sm-offset-3" size=1 width="50%">
-		<h1 class="col-sm-offset-5">MyOCR</h1>
+		<h1 class="col-sm-offset-5 text-success">MyOCR</h1>
 		<HR class="col-sm-offset-3" size=1 width="50%"> <br><br><br>
 		<form method="POST" action="/OCR/php/Identification.php"> 
 
@@ -56,13 +56,13 @@
 		  <div class="form-group row">
 		    <label class="col-sm-1 col-sm-offset-2 control-label">Login</label>
 		    <div class="col-sm-4">
-		      <input type="text" class="form-control col-sm-offset-3" name="login" >
+		      <input type="text" class="form-control col-sm-offset-3" name="login" placeholder="Login">
 		    </div>
 		  </div>
 		  <div class="form-group row">
 		    <label for="inputPassword3" class="col-sm-1 col-sm-offset-2 control-label">Password</label>
 		    <div class="col-sm-4">
-		      <input type="password" class="form-control col-sm-offset-3" id="inputPassword2" placeholder="Password" name="password"><br>
+		      <input type="password" class="form-control col-sm-offset-3" id="inputPassword2" placeholder="Mot de passe" name="password"><br>
 		    </div>
 		  </div>
 		  <div class="form-group row">
