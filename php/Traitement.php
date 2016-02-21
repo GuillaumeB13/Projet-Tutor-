@@ -11,7 +11,7 @@
 			<head>
 				<meta charset='UTF-8'>
 				<title> Traitement </title>
-				<link rel=\"stylesheet\" href=\"Traitement.css\"/>
+				<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 			</head>
 			<body>
 				<form method =\"post\">
@@ -22,7 +22,7 @@
 					<h2>Paramétrage image</h2>
 
 				<section3>
-					<h3><center>Choix du type de document</center></h3>
+					<h4>Choix du type de document</h4>
 					<div class=\"menu\">
 						<form method=\"post\">
 							<select name=\"select\">
