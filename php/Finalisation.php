@@ -24,32 +24,7 @@
 				</center>
 				<section>
 					<form method="."post"." class=\"form-group\"><br><br>";
-						// requete php pour recupérer nom des type de champs à récupérer en BDD (correspond aux noeuds dans le doc xml)
-						$req=$PDO_BDD->query('SELECT type_Champs FROM `Champs` WHERE id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
-						// stockages des types dans le tableau
-						$xml = simplexml_load_file('SavedData.xml'); // ouverture du XML
-
-						$var=array();
-						$champs=array();
-
-						foreach($req as $ligne)
-						{
-							$var[] = $xml->$ligne['type_Champs'];
-							$champs[] = $ligne['type_Champs'];
-						}
-						
-						for($i=0;$i<sizeof($var);$i++)
-						{
-							/*if ($champs[$i]=="PhotoID" || $champs[$i]=="Signature")
-							{
-								$data=base64_decode($var[$i]);
-								$img=imagecreatefromstring($data);
-								imagepng($img);
-
-							}
-							else*/
-								echo "<label class=\"col-sm-offset-1\">$champs[$i]</label>".' '.'<input type="text" value="'.$var[$i].'" name="'.$champs[$i].'""><br>';
-						}
+					include_once 'data.php';
 					echo "
 					<center>
 						<h2>Enregistrer les données récupérées ?</h2>
@@ -136,4 +111,5 @@
 					color: red;
 				}
 				</style>";
+
 ?>
