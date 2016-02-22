@@ -7,24 +7,25 @@
 	if (isset($_SESSION['login']))
 	{
 		echo "
-		<html>
+		<html >
 			<head>
 				<meta charset='UTF-8'>
 				<title> Traitement </title>
 				<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 			</head>
-			<body>
-				<form method =\"post\">
-					<input type="."submit"." value="."Déconnexion"." name="."deco"." > <br><br>
-				</form>
-					<div class=\"titre1\"><h2>Fenetre d'aperçu de l'image</h2></div>
+			<body class=\"backbody\"><br>
+				<div class=\"background2\">
+					<form method =\"post\" class=\"col-sm-offset-10\">
+						<input type="."submit"." value="."Déconnexion"." name="."deco"." class=\"btn btn-warning\"> <br><br>
+					</form>
+					<h1 class=\"col-sm-offset-4\">Fenetre d'aperçu de l'image</h1>
 
-					<h2>Paramétrage image</h2>
-
-				<section3>
-					<h4>Choix du type de document</h4>
-					<div class=\"menu\">
-						<form method=\"post\">
+					<h3 class=\"col-sm-offset-2\">Paramétrage image</h3><br><br>
+				</div>
+				<section>
+					<h3 class=\"col-sm-offset-2\">Choix du type de document</h3><br><br>
+					<div class=\"row\">
+						<form method=\"post\" class=\"col-sm-offset-2\">
 							<select name=\"select\">
 								<option value=\"vide\">Type du document à envoyer</option>";
 
@@ -39,9 +40,15 @@
 							<input type=\"submit\" name=\"OCR\" value=\"Lancer le traitement ?\" />
 						</form>
 					</div>
-				</section3>
+				</section>
 			</body>
-		</html>";
+		</html>
+		<style type=\"text/css\">
+			.backbody
+			{
+				background-color: #D8D8D8;
+			}
+		</style>";
 
 
 		if(isset($_POST['OCR']))
@@ -90,12 +97,25 @@
 					<head>
 						<meta charset='UTF-8'>
 					    <title>Finalisation</title>
-						<link rel="."stylesheet"." href="."Finalisation.css".">
+						<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 					</head>
-					<body>
-						<p> Connectez vous pour avoir accés à cette partie du site. </p>
-						<br>
-						<a href="."/OCR/php/Identification.php"."> Se connecter !</a>
+					<body class=\"backbody\">
+						<div class=\"row\">
+							<p class=\"alert\"> Connectez vous pour avoir accés à cette partie du site. </p>
+						<div class=\"row\">
+						<div class=\"row\">
+							<a href="."/OCR/php/Identification.php"." class=\"col-sm-offset-1\"> Se connecter !</a>
+						<div class=\"row\">
 					</body>
-				</html>";
+				</html>
+				<style type=\"text/css\">
+				.backbody
+				{
+					background-color: #D8D8D8;
+				}
+				.alert
+				{
+					color: red;
+				}
+				</style>";
 ?>
