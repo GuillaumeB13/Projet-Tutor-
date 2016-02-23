@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Dim 21 Février 2016 à 13:42
+-- Généré le: Mar 23 Février 2016 à 13:55
 -- Version du serveur: 5.5.47-0ubuntu0.14.04.1
 -- Version de PHP: 5.5.9-1ubuntu4.14
 
@@ -29,46 +29,30 @@ SET time_zone = "+00:00";
 CREATE TABLE IF NOT EXISTS `Champs` (
   `id_Champs` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `id_Masks` char(5) DEFAULT NULL,
-  `type_Champs` enum('Identifiant_National','Nom','Prenom','Sexe','Ville','Taille','Date_Naissance','Signature','PhotoID') DEFAULT NULL,
+  `nom_Champs` enum('Identifiant_National','Nom','Prenom','Sexe','Ville','Taille','Date_Naissance','Signature','PhotoID') DEFAULT NULL,
   `x1` int(11) DEFAULT NULL,
   `y1` int(11) DEFAULT NULL,
   `x2` int(11) DEFAULT NULL,
   `y2` int(11) DEFAULT NULL,
+  `Type` varchar(10) NOT NULL,
   PRIMARY KEY (`id_Champs`),
   UNIQUE KEY `id_Champs` (`id_Champs`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
 
 --
 -- Contenu de la table `Champs`
 --
 
-INSERT INTO `Champs` (`id_Champs`, `id_Masks`, `type_Champs`, `x1`, `y1`, `x2`, `y2`) VALUES
-(1, '1', 'Identifiant_National', 550, 100, 251, 40),
-(2, '1', 'Nom', 478, 152, 220, 45),
-(3, '1', 'Sexe', 476, 340, 40, 31),
-(4, '1', 'Ville', 438, 377, 149, 39),
-(5, '1', 'Taille', 502, 422, 38, 49),
-(6, '1', 'Date_Naissance', 832, 329, 203, 45),
-(7, '1', 'Signature', 565, 470, 625, 140),
-(8, '1', 'PhotoID', 30, 150, 300, 460);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `CNI`
---
-
-CREATE TABLE IF NOT EXISTS `CNI` (
-  `id_CNI` char(1) NOT NULL,
-  PRIMARY KEY (`id_CNI`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Contenu de la table `CNI`
---
-
-INSERT INTO `CNI` (`id_CNI`) VALUES
-('1');
+INSERT INTO `Champs` (`id_Champs`, `id_Masks`, `nom_Champs`, `x1`, `y1`, `x2`, `y2`, `Type`) VALUES
+(1, '1', 'Identifiant_National', 550, 100, 251, 40, 'texte'),
+(2, '1', 'Nom', 478, 152, 220, 45, 'texte'),
+(3, '1', 'Sexe', 476, 340, 40, 31, 'texte'),
+(4, '1', 'Ville', 438, 377, 149, 39, 'texte'),
+(5, '1', 'Taille', 502, 422, 38, 49, 'texte'),
+(6, '1', 'Date_Naissance', 832, 329, 203, 45, 'texte'),
+(7, '1', 'Signature', 565, 470, 625, 140, 'image'),
+(8, '1', 'PhotoID', 30, 150, 300, 460, 'image'),
+(9, '1', 'Prenom', 545, 245, 625, 40, 'texte');
 
 -- --------------------------------------------------------
 
@@ -90,39 +74,6 @@ CREATE TABLE IF NOT EXISTS `Documents` (
 
 INSERT INTO `Documents` (`id_Doc`, `nom_Doc`, `id_Masks`) VALUES
 ('1', 'Carte Identité', 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `Feuille_Impo`
---
-
-CREATE TABLE IF NOT EXISTS `Feuille_Impo` (
-  `id_Impot` char(1) NOT NULL,
-  PRIMARY KEY (`id_Impot`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `Feuille_Soin`
---
-
-CREATE TABLE IF NOT EXISTS `Feuille_Soin` (
-  `id_Soin` char(1) NOT NULL,
-  PRIMARY KEY (`id_Soin`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `Livret_Famille`
---
-
-CREATE TABLE IF NOT EXISTS `Livret_Famille` (
-  `id_Livret` char(1) NOT NULL,
-  PRIMARY KEY (`id_Livret`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 

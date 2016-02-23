@@ -18,13 +18,13 @@ using namespace tesseract;
 using namespace tinyxml2;
 using namespace sf;
 
-string content, endFile;
+string content,type, endFile;
 unsigned int x1,x2,y1,y2;
-ifstream configFile("/var/www/html/OCR/php/config.txt", ios::in);
+ifstream configFile("/var/www/html/OCR/php/config/config.txt", ios::in);
 
 int main()
 {
-  if(configFile && resFile)
+  if(configFile)
   {
     // initialisation du document xml
     XMLDocument xmlDoc;
@@ -36,13 +36,14 @@ int main()
       //initialisation variable de décupération
       string res="";
       //récupération des données du fichier de configuration
-      configFile >> content >> x1 >> y1 >> x2 >> y2 >> endFile;
+      configFile >> content >> type >> x1 >> y1 >> x2 >> y2 >> endFile;
 
       // création d'un enfant du noeud
       const char * contentChar = content.c_str();
       XMLElement * element = xmlDoc.NewElement(contentChar);
+      element->SetAttribute("type", type.c_str());
       // récupération des données en fonction du type de données (champs texte ou image)
-      if(content == "PhotoID" or content == "Signature")
+      if(type == "image")
         res=imageToBinary(x1,y1,x2,y2);
       else
         res = fileToString(x1,y1,x2,y2);
