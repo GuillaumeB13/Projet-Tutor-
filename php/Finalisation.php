@@ -18,14 +18,16 @@
 			<body class=\"backbody\">
 				<br>
 				<form method=\"post\" class=\"col-sm-offset-10\">
-					<input type="."submit"." value="."Déconnexion"." name="."deco"." class=\"btn btn-warning\">
+					<input type="."submit"." value="."Déconnexion"." name=\"deco\" class=\"btn btn-warning\"/>
 				</form>
+				<br><br>
 				<center>
+					<h3> Image du document actuel </h3>
+					<br>
+					<img src=\"/OCR/php/img/ci.png\" height=\"352\" width=\"600\"/>
+					<br><br>
 					<h2>Aperçu des champs récupérés</h2>
 				</center>
-				<br><br>
-				<center><img src=\"/OCR/php/img/ci.png\" height=\"352\" width=\"600\"/></center>
-				<br><br>
 				<section>
 					<form method="."post"." class=\"form-group\"><br><br>";
 					include_once 'data.php';
@@ -72,13 +74,14 @@
 		{
 			//test
 			$xml = new DOMDocument('1.0', 'utf-8');
-			$node = $xml->appendChild($xml->createElement("Infp"));
+			$node = $xml->appendChild($xml->createElement("Info"));
 
 			foreach($_POST as $key=>$value)
 			{
 				$newNode=$node->appendChild($xml->createElement($key,$value));
 			}
 			$xml->save('SavedData.xml');
+			header("Refresh:0");
 		}
 
 		if(isset($_POST['yes']))
@@ -90,9 +93,8 @@
 			$_SESSION=array();
 			session_destroy();
 			header('Location: /OCR/php/Identification.php');
+			exit();
 		}
-
-		ob_flush();
 	}
 	else
 		echo " <html>
@@ -120,5 +122,5 @@
 					color: red;
 				}
 				</style>";
-
+	ob_end_flush();
 ?>

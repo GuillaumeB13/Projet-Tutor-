@@ -16,7 +16,7 @@
 			<body class=\"backbody\"><br>
 				<div class=\"background2\">
 					<form method =\"post\" class=\"col-sm-offset-10\">
-						<input type="."submit"." value="."Déconnexion"." name="."afficher"." class=\"btn btn-warning\"> <br><br>
+						<input type="."submit"." value="."Déconnexion"." name="."deco"." class=\"btn btn-warning\"> <br><br>
 					</form>
 					<h1 class=\"col-sm-offset-4\">Fenetre d'aperçu de l'image</h1><br><br>
 					<form method=\"post\" enctype=\"multipart/form-data\">
@@ -112,6 +112,7 @@
 				fclose($monfichier);
 				exec('/var/www/html/OCR/php/script.sh');
 				header('Location: /OCR/php/Finalisation.php');
+				exit();
 			}
 		}
 		if(isset($_POST['deco']))
@@ -119,6 +120,7 @@
 			$_SESSION=array();
 			session_destroy();
 			header('Location: /OCR/php/Identification.php');
+			exit();
 		}
 	}
 	else 

@@ -1,5 +1,4 @@
 <?php
-	session_start();
 	if (isset($_SESSION['login']) && isset($_SESSION['admin']))
 	{
 		include_once 'config.php';
