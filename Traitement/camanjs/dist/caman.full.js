@@ -171,6 +171,8 @@
           _this.parseArguments(args);
           return _this.setup();
         });
+        this.rotated = false;
+        this.angle = 0;
         return this;
       } else {
         return new Caman(arguments);
@@ -531,6 +533,8 @@
         y: 0
       };
       this.resized = false;
+      this.angle = 0;
+      this.rotated = false;
       return this.replaceCanvas(canvas);
     };
 
@@ -564,7 +568,33 @@
         ctx.drawImage(canvas, 0, 0, this.originalWidth, this.originalHeight, 0, 0, this.width, this.height);
         pixelData = ctx.getImageData(0, 0, this.width, this.height).data;
         width = this.width;
-      } else {
+      } else if (this.rotated){
+          canvas = document.createElement('canvas');//Canvas for initial state
+          canvas.width = this.originalWidth; //give it the original width
+          canvas.height = this.originalHeight; //and original height
+          ctx = canvas.getContext('2d');
+          imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+          pixelData = imageData.data;//get the pixelData (length equal to those of initial canvas      
+          _ref = this.originalPixelData; //use it as a reference array
+          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+              pixel = _ref[i];
+              pixelData[i] = pixel; //give pixelData the initial pixels
+          }
+          ctx.putImageData(imageData, 0, 0); //put it back on our canvas
+          rotatedCanvas = document.createElement('canvas'); //canvas to rotate from initial
+          rotatedCtx = rotatedCanvas.getContext('2d');
+          rotatedCanvas.width = this.canvas.width;//Our canvas was already rotated so it has been replaced. Caman's canvas attribute is allready rotated, So use that width
+          rotatedCanvas.height = this.canvas.height; //the same
+          x = rotatedCanvas.width / 2; //for translating
+          y = rotatedCanvas.height / 2; //same
+          rotatedCtx.save();
+          rotatedCtx.translate(x, y);
+          rotatedCtx.rotate(this.angle * Math.PI / 180); //rotation based on the total angle
+          rotatedCtx.drawImage(canvas, -canvas.width / 2, -canvas.height / 2, canvas.width, canvas.height); //put the image back on canvas
+          rotatedCtx.restore(); //restore it
+          pixelData = rotatedCtx.getImageData(0, 0, rotatedCanvas.width, rotatedCanvas.height).data; //get the pixelData back       
+          width = rotatedCanvas.width; //used for returning the pixels in revert function               
+      }else {
         pixelData = this.originalPixelData;
         width = this.originalWidth;
       }
@@ -3384,4 +3414,52 @@
     });
   });
 
+  Caman.Plugin.register("rotate", function(degrees) {
+    var angle, canvas, ctx, height, to_radians, width, x, y;
+    angle = degrees % 360;
+    if (angle === 0) {
+      return this.dimensions = {
+        width: this.canvas.width,
+        height: this.canvas.height
+      };
+    }
+    to_radians = Math.PI / 180;
+    if (typeof exports !== "undefined" && exports !== null) {
+      canvas = new Canvas();
+    } else {
+      canvas = document.createElement('canvas');
+      Util.copyAttributes(this.canvas, canvas);
+    }
+    if (angle === 90 || angle === -270 || angle === 270 || angle === -90) {
+      width = this.canvas.height;
+      height = this.canvas.width;
+      x = width / 2;
+      y = height / 2;
+    } else if (angle === 180) {
+      width = this.canvas.width;
+      height = this.canvas.height;
+      x = width / 2;
+      y = height / 2;
+    } else {
+      width = Math.sqrt(Math.pow(this.originalWidth, 2) + Math.pow(this.originalHeight, 2));
+      height = width;
+      x = this.canvas.height / 2;
+      y = this.canvas.width / 2;
+    }
+    canvas.width = width;
+    canvas.height = height;
+    ctx = canvas.getContext('2d');
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.rotate(angle * to_radians);
+    ctx.drawImage(this.canvas, -this.canvas.width / 2, -this.canvas.height / 2, this.canvas.width, this.canvas.height);
+    ctx.restore();
+    this.angle += degrees;
+    this.rotated = true;
+    return this.replaceCanvas(canvas);
+  });
+
+  Caman.Filter.register("rotate", function() {
+    return this.processPlugin("rotate", Array.prototype.slice.call(arguments, 0));
+  });
 }).call(this);
