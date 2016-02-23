@@ -7,6 +7,7 @@
 <?php
 	if (isset($_SESSION['login']))
 	{
+		
 		echo"
 		<html>
 			<head>
@@ -22,6 +23,9 @@
 				<center>
 					<h2>Aperçu des champs récupérés</h2>
 				</center>
+				<br><br>
+				<center><img src=\"/OCR/php/img/ci.png\" height=\"352\" width=\"600\"/></center>
+				<br><br>
 				<section>
 					<form method="."post"." class=\"form-group\"><br><br>";
 					include_once 'data.php';
@@ -55,6 +59,11 @@
 			display: block;
 		    width: 150px;
 		    float: left;
+		}
+		.padding
+		{
+			padding-top:4px;
+			padding-bottom:4px;
 		}
 	</script>";
 
