@@ -16,17 +16,46 @@
 			<body class=\"backbody\"><br>
 				<div class=\"background2\">
 					<form method =\"post\" class=\"col-sm-offset-10\">
-						<input type="."submit"." value="."Déconnexion"." name="."deco"." class=\"btn btn-warning\"> <br><br>
+						<input type="."submit"." value="."Déconnexion"." name="."afficher"." class=\"btn btn-warning\"> <br><br>
 					</form>
-					<h1 class=\"col-sm-offset-4\">Fenetre d'aperçu de l'image</h1>
+					<h1 class=\"col-sm-offset-4\">Fenetre d'aperçu de l'image</h1><br><br>
+					<form method=\"post\" enctype=\"multipart/form-data\">
+						<input type=\"file\" name=\"fichier\" class=\"col-sm-offset-3\"/><br>
+						<input type=\"submit\" name=\"afficher\" class=\"btn btn-success col-sm-offset-3\" value=\"Afficher l'image ?\">
+					</form>";
 
-					<h3 class=\"col-sm-offset-2\">Paramétrage image</h3><br><br>
+		if(isset($_POST['afficher']))
+		{
+
+			$fichierUti = '/var/www/html/OCR/php/img/'; // destination du fichier
+			$fichier = $_FILES['fichier']['tmp_name'];
+			if( !is_uploaded_file($fichier) ) // vérifie l'existence du fichier
+			{
+					echo "<script>alert(\"Fichier introuvable.\")</script>";
+			}
+			$type_file = $_FILES['fichier']['type'];
+			if(strstr($type_file, '.png') ) // vérification de l'extension
+			{
+					echo "<script>alert(\"Fichier non conforme. (conforme : .png\")</script>";
+			}
+			$_FILES['fichier']['name']='ci.png';
+			$nomFichier = $_FILES['fichier']['name'];
+			if( !move_uploaded_file($fichier, $fichierUti . $nomFichier) ) // copie du fichier et renvoie d'une erreur sinon
+			{
+					echo "<script>alert(\"Impossible de copier de le fichier.\")</script>";
+			}
+		
+			echo "<br><br><img class=\"img-rounded col-sm-offset-3\" src=\"/OCR/php/img/ci.png\" height=\"352\" width=\"600\"/>";
+		}
+
+		echo "
+					<br><br><h3 class=\"col-sm-offset-2\">Paramétrage image</h3><br><br>
 				</div>
 				<section>
 					<h3 class=\"col-sm-offset-2\">Choix du type de document</h3><br><br>
 					<div class=\"row\">
-						<form method=\"post\" class=\"col-sm-offset-2\">
-							<select name=\"select\">
+						<form method=\"post\" >
+							<select name=\"select\" class=\"col-sm-offset-3\">
 								<option value=\"vide\">Type du document à envoyer</option>";
 
 										$req = $PDO_BDD->query("SELECT nom_Doc from Documents")->fetchAll();
@@ -37,8 +66,8 @@
 							echo "
 							</select>
 							<br><br>
-							<input type=\"submit\" name=\"OCR\" value=\"Lancer le traitement ?\" />
-						</form>
+							<input class=\"btn btn-success col-sm-offset-3\" type=\"submit\" name=\"OCR\" value=\"Lancer le traitement ?\" />
+						</form> 
 					</div>
 				</section>
 			</body>
@@ -96,7 +125,7 @@
 		echo " <html>
 					<head>
 						<meta charset='UTF-8'>
-					    <title>Finalisation</title>
+					    <title>Traitement</title>
 						<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 					</head>
 					<body class=\"backbody\">
