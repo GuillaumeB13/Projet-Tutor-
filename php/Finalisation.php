@@ -43,7 +43,7 @@
 			<section>
 				<center><h2>Recommencer le traitement</h2></center>
 				<form method="."post".">
-					<div class="."col-sm-offset-3 btn-success"."><input type="."submit"." value=".  "Oui"  ." name="."yes"." class=\"btn btn-success\" ></div>
+					<div class="."col-sm-offset-3"."><input type="."submit"." value=".  "Oui"  ." name="."yes"." class=\"btn btn-info\" ></div>
 				</form>
 			</section>
 		</body>

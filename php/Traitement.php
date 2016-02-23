@@ -21,7 +21,7 @@
 					<h1 class=\"col-sm-offset-4\">Fenetre d'aperçu de l'image</h1><br><br>
 					<form method=\"post\" enctype=\"multipart/form-data\">
 						<input type=\"file\" name=\"fichier\" class=\"col-sm-offset-3\"/><br>
-						<input type=\"submit\" name=\"afficher\" class=\"btn btn-success col-sm-offset-3\" value=\"Afficher l'image ?\">
+						<input type=\"submit\" name=\"afficher\" class=\"btn btn-info col-sm-offset-3\" value=\"Afficher l'image ?\">
 					</form>";
 
 		if(isset($_POST['afficher']))
@@ -55,7 +55,7 @@
 					<h3 class=\"col-sm-offset-2\">Choix du type de document</h3><br><br>
 					<div class=\"row\">
 						<form method=\"post\" >
-							<select name=\"select\" class=\"col-sm-offset-3\">
+							<select name=\"select\" class=\"input-small col-sm-offset-3  \">
 								<option value=\"vide\">Type du document à envoyer</option>";
 
 										$req = $PDO_BDD->query("SELECT nom_Doc from Documents")->fetchAll();
