@@ -1,7 +1,7 @@
 <?php
 	include_once 'config.php';
 	// requete php pour recupérer nom des type de champs à récupérer en BDD (correspond aux noeuds dans le doc xml)
-	$req=$PDO_BDD->query('SELECT type_Champs FROM `Champs` WHERE id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
+	$req=$PDO_BDD->query('SELECT nom_Champs FROM `Champs` WHERE id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
 	// stockages des types dans le tableau
 	$xml = simplexml_load_file('SavedData.xml'); // ouverture du XML
 
@@ -10,8 +10,8 @@
 
 	foreach($req as $ligne)
 	{
-		$var[] = $xml->$ligne['type_Champs'];
-		$champs[] = $ligne['type_Champs'];
+		$var[] = $xml->$ligne['nom_Champs'];
+		$champs[] = $ligne['nom_Champs'];
 	}
 
 	for($i=0;$i<sizeof($var);$i++)

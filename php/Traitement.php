@@ -60,7 +60,7 @@
 			else
 			{
 				$_SESSION['type_masque']=1; // pour le moment car seulement CI => aprés on mettra une requete SQL ect ...
-				$req=$PDO_BDD->query('SELECT type_Champs,x1,y1,x2,y2 from Champs where id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
+				$req=$PDO_BDD->query('SELECT nom_Champs,type,x1,y1,x2,y2 from Champs where id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
 				$monfichier = fopen('/var/www/html/OCR/php/config/config.txt', 'r+');
 
 				$i=0;
@@ -70,12 +70,12 @@
 					$i++;
 					if($i < sizeof($req))
 					{
-						$txt=$ligne['type_Champs'].' '.$ligne['x1'].' '.$ligne['y1'].' '.$ligne['x2'].' '.$ligne['y2'].' '.'n'."\n";
+						$txt=$ligne['nom_Champs'].' '.$ligne['type'].' '.$ligne['x1'].' '.$ligne['y1'].' '.$ligne['x2'].' '.$ligne['y2'].' '.'n'."\n";
 						fputs($monfichier, $txt);
 					}
 					else if($i == sizeof($req))
 					{
-						$txt=$ligne['type_Champs'].' '.$ligne['x1'].' '.$ligne['y1'].' '.$ligne['x2'].' '.$ligne['y2'].' '.'f'."\n";
+						$txt=$ligne['nom_Champs'].' '.$ligne['type'].' '.$ligne['x1'].' '.$ligne['y1'].' '.$ligne['x2'].' '.$ligne['y2'].' '.'f'."\n";
 						fputs($monfichier, $txt);
 					}
 				}
