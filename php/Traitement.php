@@ -10,8 +10,11 @@
 		<html >
 			<head>
 				<meta charset='UTF-8'>
-				<title> Traitement </title>
+				<title> Traitement </title>				
 				<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
+				<script type=\"text/javascript\" src=\"./camanjs/dist/caman.full.js\"></script>
+				<script src=\"//code.jquery.com/jquery-1.12.0.min.js\"></script>
+				<script type=\"text/javascript\" src=\"traitement.js\"></script>
 			</head>
 			<body class=\"backbody\"><br>
 				<div class=\"background2\">
@@ -21,7 +24,7 @@
 					<h1 class=\"col-sm-offset-4\">Fenetre d'aperçu de l'image</h1><br><br>
 					<form method=\"post\" enctype=\"multipart/form-data\">
 						<input type=\"file\" name=\"fichier\" class=\"col-sm-offset-3\"/><br>
-						<input type=\"submit\" name=\"afficher\" class=\"btn btn-info col-sm-offset-3\" value=\"Afficher l'image ?\">
+						<input type=\"submit\" name=\"afficher\" class=\"btn btn-info col-sm-offset-3\" value=\"Enregistrer l'image ?\">
 					</form>";
 
 		if(isset($_POST['afficher']))
@@ -45,12 +48,44 @@
 					echo "<script>alert(\"Impossible de copier de le fichier.\")</script>";
 			}
 		
-			echo "<br><br><img class=\"img-rounded col-sm-offset-3\" src=\"/OCR/php/img/ci.png\" height=\"352\" width=\"600\"/>";
+			echo "<script> alert(\"Image enregistrée !\")</script>";
 		}
 
 		echo "
-					<br><br><h3 class=\"col-sm-offset-2\">Paramétrage image</h3><br><br>
-				</div>
+					<br><br><h3 class=\"col-sm-offset-2\">Paramétrage image</h3>
+					<canvas id=\"canvas\"></canvas>
+					<table style=\"display:inline-block\" class=\"col-sm-offset-5\">
+						<form id=\"silderInput\">
+							<tr>
+								<td>
+								<label for=\"luminosite\">Luminosité</label>
+								</td>
+								<td>
+								<input id=\"luminosite\" name=\"luminosite\" type=\"range\" min=\"-50\" max=\"50\" value=\"0\">
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<label for=\"contraste\">Contraste</label>
+								</td>
+								<td>
+								<input id=\"contraste\" name=\"contraste\" type=\"range\" min=\"-50\" max=\"50\" value=\"0\">
+								</td>
+							</tr>
+							<tr>
+								<td>
+								<input type=\"button\" value=\"+\" name=\"plus\" id=\"rotp\">
+								</td>
+								<td>
+								<p>Rotation </p>
+								</td>
+								<td>
+								<input type=\"button\" value=\"-\" name=\"moins\" id=\"rotm\">
+								</td>
+							</tr>
+						</form>
+					</table>
+				</div><br><br><br>
 				<section>
 					<h3 class=\"col-sm-offset-2\">Choix du type de document</h3><br><br>
 					<div class=\"row\">
@@ -83,9 +118,7 @@
 		if(isset($_POST['OCR']))
 		{
 			if($_POST['select']=='vide')
-			{
 				echo "<script> alert(\"Veuillez renseignez le type de document\")</script>";
-			}
 			else
 			{
 				$_SESSION['type_masque']=1; // pour le moment car seulement CI => aprés on mettra une requete SQL ect ...
@@ -120,6 +153,7 @@
 			$_SESSION=array();
 			session_destroy();
 			header('Location: /OCR/php/Identification.php');
+			unlink('/var/www/html/OCR/php/img/ci.png');
 			exit();
 		}
 	}

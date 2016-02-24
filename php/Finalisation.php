@@ -85,13 +85,15 @@
 		}
 
 		if(isset($_POST['yes']))
-		{
+		{			
+			unlink('/var/www/html/OCR/php/img/ci.png');
 			header('Location: /OCR/php/Traitement.php');
 		}
 		if(isset($_POST['deco']))
 		{
 			$_SESSION=array();
 			session_destroy();
+			unlink('/var/www/html/OCR/php/img/ci.png');
 			header('Location: /OCR/php/Identification.php');
 			exit();
 		}
