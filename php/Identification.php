@@ -13,7 +13,6 @@
 			foreach ($connect as $ligne) 
 				$superUser=$ligne['super_User'];
 
-		    ///////////RAJOUTER UN MESSAGE SI LOGIN OU MDP INVALIDE /////////////
 		    if(count($connect) == 1)
 		    {	
 		    	if($superUser=="0")

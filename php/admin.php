@@ -1,4 +1,5 @@
 <?php
+	ob_start();
 	include_once 'config.php';
 	session_start();
 ?>
@@ -19,38 +20,34 @@
 					<form method =\"post\" class=\"col-sm-offset-1\">
 						<span style=\"display:none;\" id=\"ajoutUti\">
 					        <label for=\"pseudo\">Pseudo</label><br>
-							<input type=\"text\" name=\"pseudo\" id=\"pseudo\" size=\"30\" />
+							<input type=\"text\" name=\"pseudo\" id=\"pseudo\" size=\"30\" required/>
 					        <br><br>
 
 							<label for=\"nom\">Nom</label><br>
-							<input type=\"text\" name=\"nom\" id=\"nom\" size=\"30\" />
+							<input type=\"text\" name=\"nom\" id=\"nom\" size=\"30\" required/>
 					        <br><br>
 
 							<label for=\"prenom\">Prénom</label><br>
-							<input type=\"text\" name=\"prenom\" id=\"prenom\" size=\"30\" />
+							<input type=\"text\" name=\"prenom\" id=\"prenom\" size=\"30\" required/>
 					        <br><br>
 
 							<label for=\"tel\">Téléphone</label><br>
-							<input type=\"text\" name=\"tel\" id=\"tel\" size=\"30\" />
+							<input type=\"text\" name=\"tel\" id=\"tel\" size=\"30\" required/>
 					        <br><br>
 										
 							<label for=\"mdp\">Mot de passe</label><br>
-							<input type=\"password\" name=\"mdp\" id=\"mdp\" size=\"30\" />
+							<input type=\"password\" name=\"mdp\" id=\"mdp\" size=\"30\" required/>
 							<br><br>
 											
 							<label for=\"mdp_confirm\">Confirmez votre mot de passe</label><br>
-							<input type=\"password\" name=\"mdp_confirm\" id=\"mdp_confirm\" size=\"30\" />
+							<input type=\"password\" name=\"mdp_confirm\" id=\"mdp_confirm\" size=\"30\" required/>
 					        <br><br>
 											
 							<label for=\"mail\">Adresse email</label><br>
-							<input type=\"email\" name=\"mail\" id=\"mail\" size=\"30\" />
+							<input type=\"email\" name=\"mail\" id=\"mail\" size=\"30\" required/>
 							<br><br>
 											
-							<label for=\"mail_confirm\">Confirmez votre adresse email</label><br>
-							<input type=\"email\" name=\"mail_confirm\" id=\"mail_confirm\" size=\"30\" />
-					        <br><br>
-											
-							<input type=\"submit\" value=\"Valider\" class=\"btn btn-info\" />
+							<input type=\"submit\" name= \"valid\" value=\"Valider\" class=\"btn btn-info\" />
 					  	</span>
 					</form>
 				</div>
@@ -75,6 +72,27 @@
 				    document.getElementById(id).style.display = \"none\";
 			}
 		</script>";
+
+		if(isset($_POST['valid']))
+		{
+			$pseudobdd = $PDO_BDD->query('SELECT COUNT(login) as login FROM Users WHERE login = "'.$_POST['pseudo'].'"');
+			$reqpseudo =   $pseudobdd->fetch();
+			$pseudoexist = $reqpseudo['login'];
+		    if($pseudoexist>=1)
+		    	echo "<script>alert(\"Ce pseudo est déjà utilisé.\")</script>";
+		    else
+		    {
+	    		$reqID = $PDO_BDD->query('SELECT max(id_Users) as id FROM Users');
+				$IDtab =   $reqID->fetch();
+				$IDActu = $IDtab['id']+1;
+				$supUser =0;
+
+    	        $PDO_BDD->exec(" INSERT INTO Users (login, id_Users,pwd,super_User,mail,nom,prenom,tel) VALUES ('".$_POST['pseudo']."', '$IDActu', '".$_POST['mdp']."', '$supUser', '".$_POST['mail']."','".$_POST['nom']."','".$_POST['prenom']."','".$_POST['tel']."') ");
+
+    	        echo "<script>alert(\"Enregistrement de '".$_POST['pseudo']."' effective !\")</script>";
+		    }
+
+		}
 	}
 	else
 		echo " <html>
@@ -102,5 +120,5 @@
 				color: red;
 			}
 			</style>";
-
+	ob_end_flush();
 ?>
