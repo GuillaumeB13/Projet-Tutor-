@@ -1,0 +1,1 @@
+Si vous voulez tester l'appli chez vous, il suffit d'installer tesseract-ocr, sfml et, de copier le dossier php dans le dossier WWW (normalement c'est dans /var).
