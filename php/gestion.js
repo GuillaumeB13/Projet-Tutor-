@@ -144,10 +144,10 @@ function CanvasState(canvas) {
   // This is our reference!
   myState = this;
   this.backgroundimg = new Image();
-  this.backgroundimg.src = 'img/ci.png';
+  this.backgroundimg.src = "img/ci.png";
 // Make sure the image is loaded first otherwise nothing will draw.
   /*background.onload = function(){
-	myState.ctx.drawImage(background,0,0);   
+  myState.ctx.drawImage(background,0,0);   
   }*/
   //fixes a problem where double clicking causes text to get selected on the canvas
   canvas.addEventListener('selectstart', function(e) { e.preventDefault(); return false; }, false);
@@ -172,14 +172,14 @@ function CanvasState(canvas) {
         myState.dragoffy = my - mySel.y;
         myState.dragging = true;
         myState.selection = mySel;
-		lastSelected = myState.selection;
-		document.f.x.value = myState.selection.x;
-		document.f.y.value = myState.selection.y;
-		document.f.w.value = myState.selection.x+myState.selection.w;
-		document.f.h.value = myState.selection.y+myState.selection.h;
-		document.f.type.value = myState.selection.typeChamp;
-		document.f.nom_champ.value = myState.selection.nomChamp;
-		document.f.id.value = myState.selection.id;
+    lastSelected = myState.selection;
+    document.f.x.value = myState.selection.x;
+    document.f.y.value = myState.selection.y;
+    document.f.w.value = myState.selection.x+myState.selection.w;
+    document.f.h.value = myState.selection.y+myState.selection.h;
+    document.f.type.value = myState.selection.typeChamp;
+    document.f.nom_champ.value = myState.selection.nomChamp;
+    document.f.id.value = myState.selection.id;
         myState.valid = false;
         return;
       }
@@ -202,11 +202,11 @@ function CanvasState(canvas) {
       // from where we clicked. Thats why we saved the offset and use it here
       myState.selection.x = mouse.x - myState.dragoffx;
       myState.selection.y = mouse.y - myState.dragoffy;  
-	  document.f.x.value = myState.selection.x;
-		document.f.y.value = myState.selection.y;
-		document.f.w.value = myState.selection.x+myState.selection.w;
-		document.f.h.value = myState.selection.y+myState.selection.h;
-		
+    document.f.x.value = myState.selection.x;
+    document.f.y.value = myState.selection.y;
+    document.f.w.value = myState.selection.x+myState.selection.w;
+    document.f.h.value = myState.selection.y+myState.selection.h;
+    
       myState.valid = false; // Something's dragging so we must redraw
     } else if (myState.resizeDragging) {
       // time ro resize!
@@ -252,10 +252,10 @@ function CanvasState(canvas) {
           myState.selection.h = my - oldy;
           break;
       }
-		document.f.x.value = myState.selection.x;
-		document.f.y.value = myState.selection.y;
-		document.f.w.value = myState.selection.x+myState.selection.w;
-		document.f.h.value = myState.selection.y+myState.selection.h;
+    document.f.x.value = myState.selection.x;
+    document.f.y.value = myState.selection.y;
+    document.f.w.value = myState.selection.x+myState.selection.w;
+    document.f.h.value = myState.selection.y+myState.selection.h;
       myState.valid = false; // Something's dragging so we must redraw
     }
   
@@ -332,19 +332,19 @@ function CanvasState(canvas) {
   canvas.addEventListener('dblclick', function(e) {
     var mouse = myState.getMouse(e);
     myState.addShape(new Shape(myState, mouse.x - 10, mouse.y - 10, 20, 20, myState.curID));
-	myState.curID+=1;
+  myState.curID+=1;
   }, true);
   canvas.addEventListener('keydown', function(e) {
     if(myState.selection != null)
-		if(e.keyCode == "46")
-			for (var j = myState.shapes.length; j >= 0; j -= 1) {
-				if (myState.shapes[j] == myState.selection){
-					console.log(myState.shapes[j].x);
-					myState.shapes.splice(j, 1);
-					myState.selection = null;
-					myState.valid = false;
-				}
-			}
+    if(e.keyCode == "46")
+      for (var j = myState.shapes.length; j >= 0; j -= 1) {
+        if (myState.shapes[j] == myState.selection){
+          console.log(myState.shapes[j].x);
+          myState.shapes.splice(j, 1);
+          myState.selection = null;
+          myState.valid = false;
+        }
+      }
   }, true);
   
   // **** Options! ****
@@ -369,15 +369,15 @@ CanvasState.prototype.clear = function() {
   this.ctx.clearRect(0, 0, this.width, this.height);
 };
 CanvasState.prototype.update = function(){
-		
-		lastSelected.x = parseInt(document.f.x.value) ;
-		lastSelected.y = parseInt(document.f.y.value);
-		lastSelected.w = parseInt(document.f.w.value-document.f.x.value);
-		lastSelected.h = parseInt(document.f.h.value-document.f.y.value);
-		lastSelected.typeChamp = document.f.type.value;
-		lastSelected.nomChamp = document.f.nom_champ.value;
-		lastSelected.id = document.f.id.value;
-		originalCanvas.valid = false;
+    
+    lastSelected.x = parseInt(document.f.x.value) ;
+    lastSelected.y = parseInt(document.f.y.value);
+    lastSelected.w = parseInt(document.f.w.value-document.f.x.value);
+    lastSelected.h = parseInt(document.f.h.value-document.f.y.value);
+    lastSelected.typeChamp = document.f.type.value;
+    lastSelected.nomChamp = document.f.nom_champ.value;
+    lastSelected.id = document.f.id.value;
+    originalCanvas.valid = false;
 }
 // While draw is called as often as the INTERVAL variable demands,
 // It only ever does something if the canvas gets invalidated by our code
@@ -388,9 +388,9 @@ CanvasState.prototype.draw = function() {
   if (!this.valid) {
     ctx = this.ctx;
     shapes = this.shapes;
-	background = this.backgroundimg;
+  background = this.backgroundimg;
     this.clear();
-	ctx.drawImage(background,0,0);  
+  ctx.drawImage(background,0,0);  
     
     // ** Add stuff you want drawn in the background all the time here **
     

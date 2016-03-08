@@ -116,29 +116,40 @@
 						</div><br>
 						<div class=\"col-sm-offset-1\">
 							<h2 class=\"titre\"> Ajouter un champs </h2><br><br>
-							<form name=\"formMask\">
-								<font color=\"white\">ID: <input type=\"text\" name=\"id\" onchange=\"CanvasState.prototype.update()\" onkeydown=\"testForEnter();\"/></font><br><br>
-								<font color=\"white\"class=\"color\">Type: </font>
+							<div class=\"col-sm-7\" style=\"font-family: Verdana; font-size: 14px;\">
+								<span style=\"color:white;\">Cliquer pour sélectionner. Cliquer sur les poignées de sélection pour ajuster la taille. Double cliquer pour créer un nouveau champ. Appuyer sur la touche <kbd>suppr</kbd> pour supprimer un champ.<br/>Appuyer sur <kbd>Entrée</kbd> après une modification pour l'appliquer.</font>
+							</div><br><br><br><br><br><br>
+							<form name=\"f\">
+								<h4 class=\"titre\"> Champ actuellement sélectionner<h4><br><br>
+								<font color=\"white\">ID du champ </font><input disabled  type=\"text\" name=\"id\" onchange=\"CanvasState.prototype.update()\" onkeydown=\"testForEnter();\" id=\"dis\"/><br><br>
+								<font color=\"white\">Type </font>
 								<select name=\"type\" onchange=\"CanvasState.prototype.update()\" onkeydown=\"testForEnter();\">
 									<option value=\"texte\">Texte</option>
 									<option value=\"image\">Image</option>
 								</select><br><br>
-								<font color=\"white\"class=\"color\">Nom du champ: </font><input type=\"text\" name=\"nom_champ\" onchange=\"CanvasState.prototype.update()\" /><br><br>
-								<font style=\"margin-top:20px; margin-bottom:20px;\" color=\"white\" class=\"color\"> x1: <input type=\"text\" name=\"x\" onchange=\"CanvasState.prototype.update()\" /><font color=\"white\"> y1:<input type=\"text\" name=\"y\" onchange=\"CanvasState.prototype.update()\"/> </font><br><br>
-								<font color=\"white\"class=\"color\"> x2: </font> <input type=\"text\" name=\"w\" onchange=\"CanvasState.prototype.update()\"/> <font color=\"white\"> y2:<input type=\"text\" name=\"h\" onchange=\"CanvasState.prototype.update()\" /> </font><br><br>
-								<font color=\"white\" class=\"color\">Nom du Masque: </font><input type=\"text\" name=\"nom_masque\" /><br><br>
+								<font color=\"white\">Nom du champ </font><input onkeypress=\"return verif(event);\" type=\"text\" name=\"nom_champ\" onchange=\"CanvasState.prototype.update()\"/><br><br>
+								<font style=\"margin-top:20px; margin-bottom:20px;\" color=\"white\" > x1</font> <input disabled  type=\"text\" name=\"x\" onchange=\"CanvasState.prototype.update()\" id=\"disabledInput\"/><font color=\"white\"> y1</font><input disabled  type=\"text\" name=\"y\" onchange=\"CanvasState.prototype.update()\"id=\"disabledInput\"/><br><br>
+								<font color=\"white\"> x2 </font></font> <input disabled  type=\"text\" name=\"w\" onchange=\"CanvasState.prototype.update()\"id=\"disabledInput\"/> <font color=\"white\"> y2</font><input disabled  type=\"text\" name=\"h\" onchange=\"CanvasState.prototype.update()\" id=\"disabledInput\"/><br><br>
+								<font color=\"white\" >Assigner au masque (ID) </font><input type=\"number\" min=\"1\" max=\"666\" step=\"1\" name=\"nom_masque\" /><br><br>
 
 								<input type="."submit"." value="."Valider"." name="."ajoutMask"." class=\"btn btn-info\"> 
 							</form>
-						</div>
-						<div style=\"font-family: Verdana; font-size: 12px;\">
-							<p class=\"color\">Cliquer pour sélectionner. Cliquer sur les poignées de sélection pour ajuster la taille. Double cliquer pour créer un nouveau champ. Appuyer sur la touche \"suppr\" pour supprimer un champ<br/>Appuyer sur Entrée après une modification pour l'appliquer</p>
 						</div>
 					</span>
 				</div>
 			</body>
 		</html>
 			<style type=\"text/css\">
+				input#dis
+				{
+				  height: 30px;
+				  width: 30px;;;
+				}
+				input#disabledInput
+				{
+				  height: 30px;
+				  width: 50px;;;
+				}
 				.titreh1
 				{
 					font-family:Ubuntu;
@@ -161,6 +172,15 @@
 					else
 					    document.getElementById(id).style.display = \"none\";
 				}
+				function verif(evt) {
+			        var keyCode = evt.which ? evt.which : evt.keyCode;
+			        var accept = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+			        if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+			            return true;
+			        } else {
+			            return false;
+			        }
+			    }
 			</script>";
 
 		if(isset($_POST['liaison']))
