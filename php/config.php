@@ -1,11 +1,11 @@
 <?php
 	ini_set('display_errors', 1);
-	
+
     define('DB_HOST', 'localhost');
 	define('DB_PORT', '');
 	define('DB_DATABASE', 'MyOCR');
-	define('DB_USERNAME', 'root');
-	define('DB_PASSWORD', 'root');
+	define('DB_USERNAME', 'OCR');
+	define('DB_PASSWORD', 'aEyhHUuPNZKsRBZ9');
 	try
 	{
 		$PDO_BDD = new PDO('mysql:host='.DB_HOST.';port='.DB_PORT.';dbname='.DB_DATABASE, DB_USERNAME, DB_PASSWORD);

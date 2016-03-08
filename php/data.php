@@ -21,7 +21,7 @@
 
 		for($i=0;$i<sizeof($var);$i++)
 		{
-			echo "<div class=\"padding\"><label class=\"col-sm-offset-1\">$champs[$i]</label>".' '.'<input type="text" value="'.$var[$i].'" name="'.$champs[$i].'""><br></div>';
+			echo "<div class=\"padding\"><font color=\"white\" class=\"col-sm-offset-1\">$champs[$i]</font>".' '.'<input type="text" value="'.$var[$i].'" name="'.$champs[$i].'""><br></div>';
 
 			for($x=0;$x<sizeof($type);$x++)
 				if ( $champs[$i]===$type[$x] )
@@ -35,7 +35,7 @@
 				    <title>Finalisation</title>
 					<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 				</head>
-				<body class=\"backbody\">
+				<body style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;\">
 					<div class=\"row\">
 						<p class=\"alert\"> ERROR 404 ! Vous n'avez pas accés à cette partie du site. </p>
 					<div class=\"row\">
@@ -45,10 +45,6 @@
 				</body>
 			</html>
 			<style type=\"text/css\">
-			.backbody
-			{
-				background-color: #D8D8D8;
-			}
 			.alert
 			{
 				color: red;

@@ -1,0 +1,9 @@
+Identifiant_National texte 550 100 251 40 n
+Nom texte 478 152 220 45 n
+Prenom texte 545 245 625 40 n
+Sexe texte 476 340 40 31 n
+Ville texte 438 377 149 39 n
+Taille texte 502 422 38 49 n
+Date_Naissance texte 832 329 203 45 n
+Signature image 565 470 625 140 n
+PhotoID image 30 150 300 460 f
