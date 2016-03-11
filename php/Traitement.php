@@ -12,22 +12,29 @@
 				<meta charset='UTF-8'>
 				<title> Traitement </title>				
 				<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
+				<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">
 				<script type=\"text/javascript\" src=\"./camanjs/dist/caman.full.js\"></script>
 				<script src=\"//code.jquery.com/jquery-1.12.0.min.js\"></script>
 				<script type=\"text/javascript\" src=\"traitement.js\"></script>
 			</head>
 			<body style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover; \">
-				<div class=\"background2\">
-					<form method =\"post\" class=\"col-sm-offset-10\">
-						<input type="."submit"." value="."Déconnexion"." name="."deco"." class=\"btn btn-warning\" style=\"margin-top:10px;\"> <br><br>
-					</form>
-					<h1 class=\"titreh1 col-sm-offset-4\">Aperçu de l'image</h1><br><br>
-					<form method=\"post\" enctype=\"multipart/form-data\">
-						<h3 class=\"titre col-sm-offset-2\"> Etape 1 : Choisir une image. </h3><br><br>
-						<i><font color=\"white\">Choisir une image de maximum 1500*1500 pixels. Autrement, l'image ne sera pas prise en compte.</font></i><br><br>
-						<input style=\"color:white;\"type=\"file\" name=\"fichier\" class=\"col-sm-offset-3\"/><br>
-						<input type=\"submit\" name=\"afficher\" class=\"btn btn-info col-sm-offset-3\" value=\"Générer l'image ?\">
-					</form>";
+				<div class=\"row\">
+					<div class=\"col-sm-5 col-sm-offset-1\">
+						<h1 class=\"titreh1\"> Traitement du document </h1>
+					</div>
+					<div class=\"col-sm-4\">
+						<form method=\"post\" class=\"col-sm-offset-12\">
+							<input type="."submit"." value="."Déconnexion"." name=\"deco\" class=\"btn btn-warning\" style=\"margin-top:25px;\"/>
+						</form>
+					</div>
+				</div>
+				<br><br>
+				<form method=\"post\" enctype=\"multipart/form-data\">
+					<h3 class=\"titre col-sm-offset-2\"> Etape 1 : Choisir une image. </h3><br><br>
+					<i><font style=\"margin-left:25px;\" color=\"white\">Choisir une image de maximum 1500*1500 pixels. Autrement, l'image ne sera pas prise en compte.</font></i><br><br>
+					<input style=\"color:white;\"type=\"file\" name=\"fichier\"/><br>
+					<input type=\"submit\" name=\"afficher\" class=\"btn btn-info \" value=\"Générer l'image ?\">
+				</form>";
 
 		if(isset($_POST['afficher']))
 		{
@@ -65,7 +72,7 @@
 							<font color=\"white\" for=\"luminosite\">Luminosité</font>
 							</td>
 							<td>
-							<input id=\"luminosite\" name=\"luminosite\" type=\"range\" min=\"-50\" max=\"50\" value=\"0\">
+							<input style=\"background-color: rgb(92, 184, 92);\" id=\"luminosite\" name=\"luminosite\" class=\"range\"type=\"range\" min=\"-50\" max=\"50\" value=\"0\"><br>
 							</td>
 						</tr>
 						<tr>
@@ -73,18 +80,18 @@
 							<font color=\"white\" for=\"contraste\">Contraste</font>
 							</td>
 							<td>
-							<input id=\"contraste\" name=\"contraste\" type=\"range\" min=\"-50\" max=\"50\" value=\"0\">
+							<input style=\"background-color: rgb(92, 184, 92);\" id=\"contraste\" name=\"contraste\"class=\"range\" type=\"range\" min=\"-50\" max=\"50\" value=\"0\"><br>
 							</td>
 						</tr>
 						<tr>
 							<td>
-							<input type=\"button\" value=\"+\" name=\"plus\" id=\"rotp\">
+							<input type=\"button\" value=\"+\" class=\"btn btn-success\" name=\"plus\" id=\"rotp\">
 							</td>
 							<td>
 							<font color=\"white\">Rotation </font>
 							</td>
 							<td>
-							<input type=\"button\" value=\"-\" name=\"moins\" id=\"rotm\">
+							<input type=\"button\" value=\"-\" class=\"btn btn-success\" name=\"moins\" id=\"rotm\">
 							</td>
 						</tr>
 					</form>
@@ -95,7 +102,7 @@
 				<div class=\"row\">
 					<form method=\"post\" >
 						<select name=\"select\" class=\"input-small col-sm-offset-3  \">
-							<option value=\"vide\">Type du document à envoyer</option>";
+							<option class=\"form-control\" value=\"vide\" >Type du document à envoyer</option>";
 								$req = $PDO_BDD->query("SELECT nom_Doc from Documents")->fetchAll();
 								foreach($req as $ligne)
 									echo '<option value="' . htmlentities($ligne['nom_Doc']) . '">' . $ligne['nom_Doc'] . '</option>';
@@ -107,17 +114,7 @@
 					</div>
 				</section><br><br>
 			</body>
-		</html>
-		<style>
-			.titreh1
-			{
-				color:#FF4000;
-			}
-			.titre
-			{
-				color:#088A08;
-			}
-		</style>";
+		</html>";
 
 
 		if(isset($_POST['OCR']))
@@ -135,7 +132,7 @@
 					$_SESSION['type_masque']=$value['id_Masks'];
 
 				$_SESSION['type_masque']=1; // pour le moment car seulement CI => aprés on mettra une requete SQL ect ...
-				$req=$PDO_BDD->query('SELECT nom_Champs,type,x1,y1,x2,y2 from Champs where id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
+				$req=$PDO_BDD->query('SELECT nom_Champs,type,x1,y1,x2,y2 from Fields where id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
 				$monfichier = fopen('/var/www/html/OCR/php/config/config.txt', 'r+');
 
 				$i=0;
@@ -174,6 +171,7 @@
 					<head>
 						<meta charset='UTF-8'>
 					    <title>Traitement</title>
+						<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">
 						<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 					</head>
 					<body style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;\">
@@ -184,11 +182,5 @@
 							<a href="."/OCR/php/Identification.php"." class=\"col-sm-offset-1\"> Se connecter !</a>
 						<div class=\"row\">
 					</body>
-				</html>
-				<style type=\"text/css\">
-					.alert
-					{
-						color: red;
-					}
-				</style>";
+				</html>";
 ?>

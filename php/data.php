@@ -3,8 +3,8 @@
 	{
 		include_once 'config.php';
 		// requete php pour recupérer nom des type de champs à récupérer en BDD (correspond aux noeuds dans le doc xml)
-		$req=$PDO_BDD->query('SELECT nom_Champs FROM `Champs` WHERE id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
-		$req2=$PDO_BDD->query('SELECT nom_Champs FROM `Champs` WHERE id_Masks="'.$_SESSION['type_masque'].'" and type="image"')->fetchAll();
+		$req=$PDO_BDD->query('SELECT nom_Champs FROM `Fields` WHERE id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
+		$req2=$PDO_BDD->query('SELECT nom_Champs FROM `Fields` WHERE id_Masks="'.$_SESSION['type_masque'].'" and type="image"')->fetchAll();
 		// stockages des types dans le tableau
 		$xml = simplexml_load_file('SavedData.xml'); // ouverture du XML
 
@@ -18,21 +18,23 @@
 		}
 		foreach ($req2 as $ligne) 
 			$type[]= $ligne['nom_Champs'];
-
+		echo"<div class=\"col-sm-offset-1\">";
 		for($i=0;$i<sizeof($var);$i++)
 		{
-			echo "<div class=\"padding\"><font color=\"white\" class=\"col-sm-offset-1\">$champs[$i]</font>".' '.'<input type="text" value="'.$var[$i].'" name="'.$champs[$i].'""><br></div>';
+			echo "<div class=\"padding\"><font size=\"3\" color=\"white\" class=\"col-sm-offset-1\">$champs[$i]</font>".' '.'<input type="text" value="'.$var[$i].'" name="'.$champs[$i].'""><br></div>';
 
 			for($x=0;$x<sizeof($type);$x++)
 				if ( $champs[$i]===$type[$x] )
-					echo "<img class=\"padding\" src=\"data:image/png;base64,".$var[$i]."\"/>";
+					echo "<img style=\"vertical-align:top;\" class=\"padding\" src=\"data:image/png;base64,".$var[$i]."\"/>";
 		}
+		echo "</div>";
 	}
 	else
 		echo " <html>
 				<head>
 					<meta charset='UTF-8'>
 				    <title>Finalisation</title>
+				    <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">
 					<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 				</head>
 				<body style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;\">
@@ -43,11 +45,5 @@
 						<a href="."/OCR/php/Identification.php"." class=\"col-sm-offset-1\"> Retour à la page d'identification.</a>
 					<div class=\"row\">
 				</body>
-			</html>
-			<style type=\"text/css\">
-			.alert
-			{
-				color: red;
-			}
-			</style>";
+			</html>";
 ?>
