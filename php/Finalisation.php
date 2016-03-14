@@ -18,7 +18,7 @@
 				<link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\">
 			    <title>Finalisation</title>
 			</head>
-			<body style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;\">
+			<body class=\"container\" style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;\">
 				<div class=\"row\">
 					<div class=\"col-sm-5 col-sm-offset-1\">
 						<h1 class=\"titreh1\"> Résultat du document actuel </h1>

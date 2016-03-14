@@ -6,17 +6,18 @@
 <?php
 	if(isset($_SESSION['login']) && isset($_SESSION['admin']) && $_SESSION['admin']=="true")
 	{
+		ini_set('upload_max_filesize', '10M');
 		list($canvasWidth, $canvasHeight) = getimagesize("img/ci.png"); 
 		echo "
 		
 		<html>
 			<head>
-				<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />
+				<meta http-equiv=\"Content-Type\" content=\"text/html\"; charset=\"utf-8\" />
 				<title>Ajout de masque</title>
 				<script type=\"text/javascript\" src=\"gestion.js\"></script>
 				<link rel=\"stylesheet\" href=\"https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css\" integrity=\"sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7\" crossorigin=\"anonymous\">
 			</head>
-			<body onload=\"init()\" style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;\">
+			<body class=\"container\" onload=\"init()\" style=\"background-image:url(img/fond.jpg); background-size:cover;\">
 				<div class=\"row\">
 					<h1 class=\"titreh1 col-sm-4 col-sm-offset-4\" style=\"margin-top:10px;\"> Zone Administrateur </h1>
 					<form method =\"post\" class=\"col-sm-2 col-sm-offset-2\">
@@ -69,19 +70,13 @@
 										<h4 class=\"titre\"> Ajouter un document : </h4><br>
 								        <font color=\"white\" for=\"nomDoc\">Nom du Document</font><br>
 										<input type=\"text\" name=\"nomDoc\" size=\"30\" required/>
-								        <br><br>
-								        <font color=\"white\" for=\"idMask\">ID du masque à associer avec le document (facultatif)</font><br>
-										<input type=\"text\" name=\"idMask\" size=\"30\"/>
-								        <br><br>
+								        <br><br>								      
 										<input type=\"submit\" name= \"ajoutDoc\" value=\"Valider\" class=\"btn btn-info\" /><br><br>
 								</form>
 								<form method =\"post\" class=\"col-sm-offset-1\">
 									<h4 class=\"titre\"> Ajouter un masque : </h4><br>
 									<font color=\"white\" for=\"nomMask\">Nom du Masque</font><br>
 									<input type=\"text\" name=\"nomMask\" size=\"30\" required/>
-							        <br><br>
-							        <font color=\"white\" for=\"idDoc\">ID du document à associer avec le masque (facultatif)</font><br>
-									<input type=\"text\" name=\"idDoc\" size=\"30\"/>
 							        <br><br>
 							        <input type=\"submit\" name= \"ajoutMask\" value=\"Valider\" class=\"btn btn-info\" /><br><br>
 
@@ -109,7 +104,7 @@
 					</div>
 				<div  style=\"padding-left: 5px; \"> <br><br>
 					
-					<button type=\"button\" class=\"btn btn-success col-sm-offset-1\" onclick=\"toggle_text('ajoutChamp'); \">Ajouter un champs</button><br><br>
+					<button type=\"button\" class=\"btn btn-success col-sm-offset-1\" onclick=\"toggle_text('ajoutChamp'); \">Ajouter un champ</button><br><br>
 					<span style=\"display:none;\" id=\"ajoutChamp\">
 						<h3 class=\"titre col-sm-offset-4\">Choisir une image </h3><br><br>
 						<form method=\"post\" enctype=\"multipart/form-data\">
@@ -123,16 +118,26 @@
 							</canvas>
 						</div><br>
 						<div class=\"col-sm-offset-1\">
-							<h2 class=\"titre\"> Ajouter un champs </h2><br><br>
+							<h2 class=\"titre\"> Ajouter un champ </h2><br><br>
 							<div class=\"col-sm-7\" style=\"font-family: Verdana; font-size: 14px;\">
 								<span style=\"color:white;\">Cliquer pour sélectionner. Cliquer sur les poignées de sélection pour ajuster la taille. Double cliquer pour créer un nouveau champ. Appuyer sur la touche <kbd>suppr</kbd> pour supprimer un champ.</font>
 							</div><br><br><br><br><br><br>
 							<form name=\"f\" method=\"post\" >
 								<h4 class=\"titre\"> Champ actuellement sélectionner<h4><br><br>
-								<font color=\"white\" style=\"display:inline-block;\">Type </font>
+								<input type=\"hidden\" name=\"id\" onchange=\"CanvasState.prototype.update()\" onkeydown=\"testForEnter();\"/>
+								<font color=\"white\" style=\"display:inline-block;\">Type (OCR) </font>
 								<select class=\"form-control \" style=\"width:100px;display:inline-block;\" name=\"type\" onchange=\"CanvasState.prototype.update()\" onkeydown=\"testForEnter();\">
 									<option value=\"texte\">texte</option>
 									<option value=\"image\">image</option>
+								</select><br><br>
+								<font color=\"white\" style=\"display:inline-block;\">Type (affichage HTML) </font>
+								<select class=\"form-control \" style=\"width:100px;display:inline-block;\" name=\"typeHTML\" onchange=\"CanvasState.prototype.update()\" onkeydown=\"testForEnter();\">
+									<option value=\"text\">text</option>
+									<option value=\"image\">image</option>
+									<option value=\"date\">date</option>
+									<option value=\"email\">email</option>
+									<option value=\"number\">number</option>
+									<option value=\"tel\">tel</option>
 								</select><br><br>
 								<font color=\"white\">Nom du champ </font><input onkeypress=\"return verif(event);\" type=\"text\" name=\"nom_champ\" onchange=\"CanvasState.prototype.update()\"/><br><br>
 								<font style=\"margin-top:20px; margin-bottom:20px;\" color=\"white\" > x1</font> <input readonly  type=\"text\" name=\"x\" onchange=\"CanvasState.prototype.update()\" /><font color=\"white\"> y1</font><input readonly  type=\"text\" name=\"y\" onchange=\"CanvasState.prototype.update()\"/><br><br>
@@ -147,7 +152,243 @@
 							</form>
 						</div>
 					</span>
+				</div> <br><br>
+				<div  style=\"padding-left: 5px; \">
+					<button type=\"button\" class=\"btn btn-success col-sm-offset-1\" onclick=\"toggle_text('modif'); \">Modification</button><br><br>
+					<span class=\"col-sm-offset-1\" style=\"display:none;\" id=\"modif\">
+
+						<button type=\"button\" class=\"btn btn-success col-sm-offset-1\" onclick=\"toggle_text('modifDoc'); \">Modfier les documents</button>
+						<span class=\"col-sm-offset-1\" style=\"display:none;\" id=\"modifDoc\">
+								<div style=\"display:inline-block;\"><br>
+								<font style=\"margin:10px;\" class=\"titre\" size=\"4\"> Nom des documents </font><br><br>";
+
+								$req=$PDO_BDD->query('SELECT nom_Doc,id_Doc from Documents');
+									foreach($req as $ligne)
+										echo '<form method="post" enctype="multipart/form-data" >
+											<input  style="width:1px;visibility: hidden;" type="text" name="idDoc" value="' . htmlentities($ligne['id_Doc']).'">
+											<input style="margin:10px;" name="nomDoc" value="' . htmlentities($ligne['nom_Doc']).'">
+
+
+											<input class="btn btn-warning" type="submit" name="modifDoc" value="Modifier le document"><br>
+										</form>
+											';
+							
+
+
+								echo"</div><br><br>
+						</span><br>
+
+						<br>
+
+						<button type=\"button\" class=\"btn btn-success col-sm-offset-1\" onclick=\"toggle_text('modifMasks'); \">Modifier les masques</button>
+						<span class=\"col-sm-offset-1\" style=\"display:none;\" id=\"modifMasks\">
+							<div style=\"display:inline-block;\"><br>
+								<font style=\"margin:10px;\" class=\"titre\" size=\"4\"> Nom des masques </font><br><br>";
+
+								$req=$PDO_BDD->query('SELECT nom_Masks,id_Masks from Masks');
+								foreach($req as $ligne)
+									echo '<form method="post" enctype="multipart/form-data" >
+											<input  style="width:1px;visibility: hidden;" type="text" name="idMask" value="' . htmlentities($ligne['id_Masks']).'">
+											<input style="margin:10px;" name="maskName" value="' . htmlentities($ligne['nom_Masks']).'">
+
+
+											<input class="btn btn-warning" type="submit" name="modifMask" value="Modifier le masque"><br>
+										</form>
+											';
+
+								echo"
+								</div><br><br>
+						</span><br>
+
+						<br>
+
+						<button type=\"button\" class=\"btn btn-success col-sm-offset-1\" onclick=\"toggle_text('modifChp'); \">Modifier les champs</button>
+						<span class=\"col-sm-offset-1\" style=\"display:none;\" id=\"modifChp\"><br>
+						<table class=\" table\">
+						<tr>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> Nom du Champ </font> 
+							</td>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> x1 </font> 
+							</td>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> y1 </font>
+							</td>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> x2 </font> 
+							</td>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> y2 </font>
+							</td>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> Type de champ (OCR) </font>
+							</td>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> Type de champ (HTML) </font>
+							</td>
+							<td>
+								<font class=\"titre\" color=\"white\" size=\"4\"> Validation </font>
+							</td>
+						</tr>";
+
+								$req=$PDO_BDD->query('SELECT id_Champs,nom_Champs,x1,y1,x2,y2,typeHTML from Fields');
+								$req2=$PDO_BDD->query('SELECT type from Fields');
+								foreach($req as $ligne)
+								{
+									echo
+									"
+										<tr>
+										<form method=\"post\">
+											<td>
+												<input onkeypress=\"return verif(event);\" name=\"nomChamps\" type=\"text\" value='".$ligne['nom_Champs']."'>
+											</td>
+											<td>
+												<input onkeypress=\"return verif(event);\" style=\"width:50px;\" name=\"x1\" type=\"text\" value='".$ligne['x1']."'>
+											</td>
+											<td>
+												<input onkeypress=\"return verif(event);\" style=\"width:50px;\" name=\"y1\" type=\"text\" value='".$ligne['y1']."'>
+											</td>
+											<td>
+												<input onkeypress=\"return verif(event);\" style=\"width:50px;\" name=\"x2\" type=\"text\" value='".$ligne['x2']."'>
+											</td>
+											<td>
+												<input onkeypress=\"return verif(event);\" style=\"width:50px;\" name=\"y2\" type=\"text\" value='".$ligne['y2']."'>
+											</td>
+											<td>
+												<select name=\"selectType\" class=\"form-control\" >";
+												$req3=$PDO_BDD->query('SELECT type from Fields where id_Champs="'.$ligne['id_Champs'].'"');
+												foreach ($req3 as $key)
+													$typeChampID=$key['type'];
+												if($typeChampID==='texte')
+													echo"
+													<option selected value=\"texte\">texte</option>
+													<option value=\"image\">image</option>";
+												else
+													echo"
+													<option value=\"texte\">texte</option>
+													<option selected value=\"image\">image</option>";
+												
+												echo "
+												</select>
+											</td>
+											<td>
+												<select name=\"selectTypeHTML\" class=\"form-control\" >";
+												$req4=$PDO_BDD->query('SELECT typeHTML from Fields where id_Champs="'.$ligne['id_Champs'].'"');
+												foreach ($req4 as $key)
+													$typeChampID=$key['typeHTML'];
+												if($typeChampID==='text')
+													echo"
+													<option selected value=\"texte\">texte</option>
+													<option value=\"image\">image</option>
+													<option value=\"date\">date</option>
+													<option value=\"email\">email</option>
+													<option value=\"number\">number</option>
+													<option value=\"tel\">tel</option>
+													";
+												else if($typeChampID==='image')
+													echo"
+													<option value=\"texte\">texte</option>
+													<option selected value=\"image\">image</option>
+													<option value=\"date\">date</option>
+													<option value=\"email\">email</option>
+													<option value=\"number\">number</option>
+													<option value=\"tel\">tel</option>";
+
+												else if($typeChampID==='date')
+													echo"
+													<option value=\"texte\">texte</option>
+													<option value=\"image\">image</option>
+													<option selected value=\"date\">date</option>
+													<option value=\"email\">email</option>
+													<option value=\"number\">number</option>
+													<option value=\"tel\">tel</option>";
+
+												else if($typeChampID==='email')
+													echo"
+													<option value=\"texte\">texte</option>
+													<option value=\"image\">image</option>
+													<option value=\"date\">date</option>
+													<option selected value=\"email\">email</option>
+													<option value=\"number\">number</option>
+													<option value=\"tel\">tel</option>";
+
+												else if($typeChampID==='number')
+													echo"
+													<option value=\"texte\">texte</option>
+													<option value=\"image\">image</option>
+													<option value=\"date\">date</option>
+													<option value=\"email\">email</option>
+													<option selected value=\"number\">number</option>
+													<option value=\"tel\">tel</option>";
+
+												else if($typeChampID==='tel')
+													echo"
+													<option value=\"texte\">texte</option>
+													<option value=\"image\">image</option>
+													<option value=\"date\">date</option>
+													<option value=\"email\">email</option>
+													<option value=\"number\">number</option>
+													<option selected value=\"tel\">tel</option>";
+												
+												echo "
+												</select>
+											</td>
+											<td>
+												<input class=\"btn btn-info\" type=\"submit\" name=\"modifChamp\" value=\"Valider modification\">
+												<input style=\"width:1px; visibility: hidden;\" name=\"idChamp\" type=\"text\" value='".$ligne['id_Champs']."'>
+											</td>
+										</form>
+										</tr>
+									";
+								}
+
+								echo "</table>
+								</div><br>
+						</span><br>
+
+					</span>
 				</div>
+				<div  style=\"padding-left: 5px; \">
+					<button type=\"button\" class=\"btn btn-success col-sm-offset-1\" onclick=\"toggle_text('supr'); \">Suppression</button><br><br>
+					<span class=\"col-sm-offset-1\" style=\"display:none;\" id=\"supr\">
+						<form method=\"post\">
+							<h4 class=\"titre\"> Supprimer un document :<h4>
+							<select name=\"supprDoc\" class=\"form-control \" style=\"margin:5px; width:200px;display:inline-block;\" required>";
+
+							$req=$PDO_BDD->query('SELECT nom_Doc,id_Doc from Documents');
+								foreach($req as $ligne)
+									echo '<option value="' . htmlentities($ligne['id_Doc']).'">' . $ligne['nom_Doc'] . '</option>';
+
+						echo"
+								<input class=\"btn btn-danger\" type=\"submit\" name=\"delDoc\" value=\"Supprimer le document\"><br>
+						</form>
+						<br>
+						<form method=\"post\">
+							<h4 class=\"titre\"> Supprimer un masque :<h4>
+							<select name=\"supprMask\" class=\"form-control \" style=\"margin:5px; width:200px;display:inline-block;\" required>";
+
+							$req=$PDO_BDD->query('SELECT nom_Masks,id_Masks from Masks');
+								foreach($req as $ligne)
+									echo '<option value="' . htmlentities($ligne['id_Masks']).'">' . $ligne['nom_Masks'] . '</option>';
+
+						echo"
+							<input class=\"btn btn-danger\" type=\"submit\" name=\"delMask\" value=\"Supprimer le masque\">	<br>
+						</form>
+						<br>
+						<form method=\"post\">
+							<h4 class=\"titre\"> Supprimer un champ :<h4>
+							<select name=\"supprChamp\" class=\"form-control \" style=\"margin:5px; width:200px;display:inline-block;\" required>";
+
+							$req=$PDO_BDD->query('SELECT nom_Champs,id_Champs from Fields');
+								foreach($req as $ligne)
+									echo '<option value="' . htmlentities($ligne['id_Champs']).'">' . $ligne['nom_Champs'] . '</option>';
+
+						echo"
+							<input class=\"btn btn-danger\" type=\"submit\" name=\"delChamp\" value=\"Supprimer le champ\">	<br>
+						</form>
+					</span>
+				</div>	
 			</body>
 		</html>
 			<style type=\"text/css\">
@@ -183,16 +424,81 @@
 					else
 					    document.getElementById(id).style.display = \"none\";
 				}
-				function verif(evt) {
+				function verif(evt) 
+				{
 			        var keyCode = evt.which ? evt.which : evt.keyCode;
 			        var accept = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-';
-			        if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) {
+			        if (accept.indexOf(String.fromCharCode(keyCode)) >= 0) 
 			            return true;
-			        } else {
+			        else 
 			            return false;
-			        }
+			        
 			    }
 			</script>";
+		if(isset($_POST['delDoc']))
+		{
+			$req=$PDO_BDD->exec("UPDATE Masks set id_Docs=NULL where id_Docs='".$_POST['supprDoc']."'");
+			$req=$PDO_BDD->exec("DELETE from Documents where id_Doc='".$_POST['supprDoc']."'");
+			$req=$PDO_BDD->exec("UPDATE Documents set id_Doc=id_Doc-1 where id_Doc>'".$_POST['supprDoc']."'");
+			$req=$PDO_BDD->exec("UPDATE Masks set id_Docs=id_Docs-1 where id_Docs>'".$_POST['supprDoc']."'");
+
+			echo "<script> alert(\"Document supprimé ! \")</script>";
+			header("Refresh:0");
+
+		}
+
+		if(isset($_POST['delMask']))
+		{
+			$req=$PDO_BDD->exec("UPDATE Documents set id_Masks=NULL where id_Masks='".$_POST['supprMask']."'");
+			$req=$PDO_BDD->exec("UPDATE Fields set id_Masks=NULL where id_Masks='".$_POST['supprMask']."'");
+			$req=$PDO_BDD->exec("DELETE from Masks where id_Masks='".$_POST['supprMask']."'");
+			$req=$PDO_BDD->exec("UPDATE Masks set id_Masks=id_Masks-1 where id_Masks>'".$_POST['supprMask']."'");
+			$req=$PDO_BDD->exec("UPDATE Documents set id_Masks=id_Masks-1 where id_Masks>'".$_POST['supprMask']."'");
+			$req=$PDO_BDD->exec("UPDATE Fields set id_Masks=id_Masks-1 where id_Masks>'".$_POST['supprMask']."'");
+
+			echo "<script> alert(\"Masque supprimé ! \")</script>";
+			header("Refresh:0");
+		}
+
+		if(isset($_POST['delChamp']))
+		{
+			$req=$PDO_BDD->exec("DELETE from Fields where id_Champs='".$_POST['supprChamp']."'");
+			$req=$PDO_BDD->exec("UPDATE Fields set id_Champs=id_Champs-1 where id_Champs>'".$_POST['supprChamp']."'");
+
+			echo "<script> alert(\"Champ supprimé ! \")</script>";
+			header("Refresh:0");
+		}
+
+		if(isset($_POST['modifDoc']))
+		{
+			$id=$_POST['idDoc'];
+			$update=$PDO_BDD->exec("UPDATE Documents set nom_Doc='".$_POST['nomDoc']."' where id_Doc='$id'");
+
+			echo "<script> alert(\"Document modifié !\")</script>";
+
+			header("Refresh:0");
+		}
+
+		if(isset($_POST['modifMask']))
+		{
+			$iDm=$_POST['idMask'];
+			$update=$PDO_BDD->exec("UPDATE Masks set nom_Masks='".$_POST['maskName']."' where id_Masks='$iDm'");
+
+			echo "<script> alert(\"Masque modifié !\")</script>";
+
+			header("Refresh:0");
+		}
+
+		if(isset($_POST['modifChamp']))
+		{
+			$id=$_POST['idChamp'];
+			$update=$PDO_BDD->exec("UPDATE Fields set nom_Champs='".$_POST['nomChamps']."',x1='".$_POST['x1']."',y1='".$_POST['y1']."',x2='".$_POST['x2']."',y2='".$_POST['y2']."',Type='".$_POST['selectType']."', typeHTML='".$_POST['selectTypeHTML']."' where id_Champs='$id'");
+		
+			echo "<script> alert(\"Champ modifié !\")</script>";
+
+			header("Refresh:0");
+		}
+
 		if(isset($_POST['ajoutChamp']))
 		{
 			$champ=$_POST['nom_champ'];
@@ -203,12 +509,13 @@
 				$IDtab =   $reqID->fetch();
 				$IDchamp = $IDtab['id']+1;
 
-				$ajt=$PDO_BDD->exec("INSERT INTO Fields (id_Champs , id_Masks , nom_Champs , x1 , y1 , x2 , y2 , Type) VALUES ( '$IDchamp' , '".$_POST['IDMASK']."' , '$champ' , '".$_POST['x']."' , '".$_POST['y']."' , '".$_POST['w']." ' , '".$_POST['h']."' , '".$_POST['type']."' ) ");
+				$ajt=$PDO_BDD->exec("INSERT INTO Fields (id_Champs , id_Masks , nom_Champs , x1 , y1 , x2 , y2 , Type, typeHTML) VALUES ( '$IDchamp' , '".$_POST['IDMASK']."' , '$champ' , '".$_POST['x']."' , '".$_POST['y']."' , '".$_POST['w']." ' , '".$_POST['h']."' , '".$_POST['type']."', '".$_POST['typeHTML']."' ) ");
 				$nommasque=$PDO_BDD->query('SELECT nom_Masks from Masks where id_Masks="'.$_POST['IDMASK'].'"');
 				echo "<script> alert(\"'".$_POST['nom_champ']."' à bien était ajouté au masque '".$_POST['nom_champ']."' \")</script>";
 			}
 			else
 				echo "<script> alert(\"Le nom de champs '".$_POST['nom_champ']."' existe déjà !\")</script>";
+			header("Refresh:0");
 		}
 
 		if(isset($_POST['liaison']))
@@ -234,6 +541,7 @@
 					echo "<script> alert(\"L'ID du masque n'existe pas !\")</script>";
 			else
 	    		echo "<script> alert(\"L'ID du document n'existe pas !\")</script>";
+	    	header("Refresh:0");
 		}
 
 		if(isset($_POST['ajoutMask']))
@@ -241,13 +549,13 @@
 			$mask = $_POST['nomMask'];
 			$verifMask=$PDO_BDD->query("SELECT nom_Masks FROM Masks WHERE nom_Masks LIKE '$mask'")->fetchAll();
 
-			if(count($verifMask)>1)
+			if(count($verifMask)<1)
 			{
 				$reqID = $PDO_BDD->query('SELECT max(id_Masks) as id FROM Masks');
 				$IDtab =   $reqID->fetch();
 				$IDmask = $IDtab['id']+1;
 				
-				$ajtDoc=$PDO_BDD->exec("INSERT INTO Masks (id_Masks, nom_Masks, id_Docs) VALUES ('$IDmask','$mask','".$_POST['idDoc']."')");	
+				$ajtDoc=$PDO_BDD->exec("INSERT INTO Masks (id_Masks, nom_Masks, id_Docs) VALUES ('$IDmask','$mask',NULL)");	
 
 				echo "<script> alert(\"$mask enregistrés !\")</script>";
 				header("Refresh:0");
@@ -261,13 +569,13 @@
 			$doc = $_POST['nomDoc'];	
 			$verifDoc=$PDO_BDD->query("SELECT nom_Doc FROM Documents WHERE nom_Doc LIKE '$doc'")->fetchAll();
 
-	    	if(count($verifDoc)>1)
+	    	if(count($verifDoc)<1)
 	    	{	
 	    		$reqID = $PDO_BDD->query('SELECT max(id_Doc) as id FROM Documents');
 				$IDtab =   $reqID->fetch();
 				$IDdoc = $IDtab['id']+1;
 
-	    		$ajtDoc=$PDO_BDD->exec("INSERT INTO Documents (id_Doc, nom_Doc, id_Masks) VALUES ('$IDdoc','$doc','".$_POST['idMask']."') ");
+	    		$ajtDoc=$PDO_BDD->exec("INSERT INTO Documents (id_Doc, nom_Doc, id_Masks) VALUES ('$IDdoc','$doc',NULL) ");
 
 	    		echo "<script> alert(\"$doc enregistrés !\")</script>";
 	    		header("Refresh:0");
@@ -291,8 +599,8 @@
 					$nomFichier = $_FILES['fichier']['name'];
 					if( move_uploaded_file($fichier, $fichierUti . $nomFichier) ) // copie du fichier et renvoie d'une erreur sinon
 					{
-						echo "<script> alert(\"Image généré !\")</script>";
 						header("Refresh:0");
+						echo "<script> alert(\"Image généré !\")</script>";
 					}
 					else
 						echo "<script>alert(\"Impossible de copier de le fichier.\")</script>";
@@ -301,13 +609,13 @@
 					echo "<script>alert(\"Fichier non conforme. (conforme : .,png, .jpg)\")</script>";
 			}
 			else
-				echo "<script>alert(\"Fichier introuvable.\")</script>";		
+				echo "<script>alert(\"Fichier introuvable.\")</script>";	
+	
 		}
 		if(isset($_POST['deco']))
 		{
 			$_SESSION=array();
 			session_destroy();
-			unlink('/var/www/html/OCR/php/img/ci.png');
 			header('Location: /OCR/php/Identification.php');
 			exit();
 		}
@@ -330,6 +638,7 @@
 
     	        echo "<script>alert(\"Enregistrement de '".$_POST['pseudo']."' effectif !\")</script>";
 		    }
+		    header("Refresh:0");
 
 		}
 	}
@@ -359,5 +668,15 @@
 				color: red;
 			}
 			</style>";
+
+	if(isset($_POST['deco']))
+	{
+		$_SESSION=array();
+		session_destroy();
+		header('Location: /OCR/php/Identification.php');
+		exit();
+	}
+
+	
 	ob_end_flush();
 ?>

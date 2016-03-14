@@ -39,3 +39,10 @@
     </div>
   </body>
 </html>
+
+
+
+
+
+
+<font>ID: <input type=\"text\" name=\"id\" onchange=\"CanvasState.prototype.update()\" onkeydown=\"testForEnter();\"/></font>

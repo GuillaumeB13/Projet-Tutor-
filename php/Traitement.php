@@ -17,7 +17,7 @@
 				<script src=\"//code.jquery.com/jquery-1.12.0.min.js\"></script>
 				<script type=\"text/javascript\" src=\"traitement.js\"></script>
 			</head>
-			<body style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover; \">
+			<body class=\"container\" style=\"background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover; \">
 				<div class=\"row\">
 					<div class=\"col-sm-5 col-sm-offset-1\">
 						<h1 class=\"titreh1\"> Traitement du document </h1>
@@ -59,7 +59,9 @@
 					echo "<script>alert(\"Fichier non conforme. (conforme : .,png, .jpg)\")</script>";
 			}
 			else
-				echo "<script>alert(\"Fichier introuvable.\")</script>";		
+				echo "<script>alert(\"Fichier introuvable.\")</script>";
+
+			header("Refresh:0");			
 		}
 
 		echo "
@@ -101,11 +103,19 @@
 				<h3 class=\"titre col-sm-offset-2\">Etape 3 : Choix du type de document et traitement.</h3><br><br>
 				<div class=\"row\">
 					<form method=\"post\" >
-						<select name=\"select\" class=\"input-small col-sm-offset-3  \">
-							<option class=\"form-control\" value=\"vide\" >Type du document à envoyer</option>";
-								$req = $PDO_BDD->query("SELECT nom_Doc from Documents")->fetchAll();
+						<select style=\"width:225px; height:30px;\" name=\"typeDocMasks\" class=\"input-small col-sm-offset-3  \">
+							<optgroup label=\"Document\"><option class=\"form-control\" value=\"vide\" >Nom du masque</option>";
+								$req = $PDO_BDD->query("SELECT nom_Doc,id_Doc from Documents")->fetchAll();
 								foreach($req as $ligne)
-									echo '<option value="' . htmlentities($ligne['nom_Doc']) . '">' . $ligne['nom_Doc'] . '</option>';
+								{
+									$idDocument=$ligne['id_Doc'];
+									echo '<optgroup label="' . htmlentities($ligne['nom_Doc']) . '">';
+									$req2=$PDO_BDD->query("SELECT id_Masks,nom_Masks FROM Masks where id_Docs='$idDocument' ")->fetchAll();
+
+									foreach ($req2 as $key) 
+										echo '<option value="'.htmlentities($key['id_Masks']).'">'.htmlentities($key['nom_Masks']).'</option>';
+									echo '</optgroup>';
+								}
 							echo "
 							</select>
 							<br><br>
@@ -119,20 +129,13 @@
 
 		if(isset($_POST['OCR']))
 		{
-			if($_POST['select']=='vide')
+			if($_POST['typeDocMasks']=='vide')
 				echo "<script> alert(\"Veuillez renseignez le type de document\")</script>";
 			else
 			{
-				$req=$PDO_BDD->query('SELECT id_Doc from Documents where nom_Doc="'.$_POST['select'].'"');
-				foreach ($req as $value)
-					$idMask=$value['id_Doc'];
+				$_SESSION['id_Mask']=$_POST['typeDocMasks'];
 
-				$req=$PDO_BDD->query('SELECT Masks.id_Masks FROM Masks join Documents on Masks.id_Masks=Documents.id_Doc where Masks.id_Docs="$idMask"')->fetchAll();
-				foreach ($req as $value)
-					$_SESSION['type_masque']=$value['id_Masks'];
-
-				$_SESSION['type_masque']=1; // pour le moment car seulement CI => aprés on mettra une requete SQL ect ...
-				$req=$PDO_BDD->query('SELECT nom_Champs,type,x1,y1,x2,y2 from Fields where id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
+				$req=$PDO_BDD->query('SELECT nom_Champs,type,x1,y1,x2,y2 from Fields where id_Masks="'.$_SESSION['id_Mask'].'"')->fetchAll();
 				$monfichier = fopen('/var/www/html/OCR/php/config/config.txt', 'r+');
 
 				$i=0;

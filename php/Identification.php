@@ -46,7 +46,7 @@
 		<meta charset='UTF-8'>
 		<title>Identification</title>
 	</head>
-	<body style="background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;">
+	<body class="container"style="background-image:url(img/fond.jpg); overflow-x: hidden; background-size:cover;">
 		<HR class="col-sm-offset-3" size=1 width="45%">
 		<h1 class="titreh1 col-sm-offset-5 text-success">MyOCR</h1>
 		<HR class="col-sm-offset-3" size=1 width="45%"> <br><br><br>
@@ -54,13 +54,13 @@
 		<br><br><br><br><br>
 		<form class="form-horizontal">
 		  <div class="form-group row">
-		    <font class="col-sm-1 col-sm-offset-1 control-font" color="#0B610B">Login</font>
+		    <font size="5" class="col-sm-1 col-sm-offset-1 control-font" color="#0B610B">Login</font>
 		    <div class="col-sm-4">
 		      <input type="text" class="form-control col-sm-offset-2" name="login" placeholder="Login">
 		    </div>
 		  </div>
 		  <div class="form-group row">
-		    <font color="#0B610B" for="inputPassword3" class="col-sm-1 col-sm-offset-1 control-font">Password</font>
+		    <font size="5" color="#0B610B" for="inputPassword3" class="col-sm-1 col-sm-offset-1 control-font">Password</font>
 		    <div class="col-sm-4">
 		      <input type="password" class="form-control col-sm-offset-2" id="inputPassword2" placeholder="Mot de passe" name="password"><br>
 		    </div>

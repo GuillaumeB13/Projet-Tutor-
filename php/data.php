@@ -3,13 +3,16 @@
 	{
 		include_once 'config.php';
 		// requete php pour recupérer nom des type de champs à récupérer en BDD (correspond aux noeuds dans le doc xml)
-		$req=$PDO_BDD->query('SELECT nom_Champs FROM `Fields` WHERE id_Masks="'.$_SESSION['type_masque'].'"')->fetchAll();
-		$req2=$PDO_BDD->query('SELECT nom_Champs FROM `Fields` WHERE id_Masks="'.$_SESSION['type_masque'].'" and type="image"')->fetchAll();
+		$req=$PDO_BDD->query('SELECT nom_Champs FROM Fields WHERE id_Masks="'.$_SESSION['id_Mask'].'"')->fetchAll();
+		$typeHTML=$PDO_BDD->query('SELECT typeHTML FROM Fields WHERE id_Masks="'.$_SESSION['id_Mask'].'"')->fetchAll();
+		$req2=$PDO_BDD->query('SELECT nom_Champs FROM Fields WHERE id_Masks="'.$_SESSION['id_Mask'].'" and type="image"')->fetchAll();
 		// stockages des types dans le tableau
 		$xml = simplexml_load_file('SavedData.xml'); // ouverture du XML
-
+		$html=array();
 		$var=array();
 		$champs=array();
+		foreach ($typeHTML as $key)
+			$html[] = $key['typeHTML'];
 
 		foreach($req as $ligne)
 		{
@@ -21,8 +24,10 @@
 		echo"<div class=\"col-sm-offset-1\">";
 		for($i=0;$i<sizeof($var);$i++)
 		{
-			echo "<div class=\"padding\"><font size=\"3\" color=\"white\" class=\"col-sm-offset-1\">$champs[$i]</font>".' '.'<input type="text" value="'.$var[$i].'" name="'.$champs[$i].'""><br></div>';
-
+			if($html[$i]!=='image')
+				echo "<div class=\"padding\"><font size=\"3\" color=\"white\" class=\"col-sm-offset-1\">$champs[$i]</font>".' '.'<input type="'.$html[$i].'" value="'.$var[$i].'" name="'.$champs[$i].'""><br></div>';
+			else
+				echo "<div class=\"padding\"><font size=\"3\" color=\"white\" class=\"col-sm-offset-1\">$champs[$i]</font>".' '.'<input type="text" value="'.$var[$i].'" name="'.$champs[$i].'""><br></div>';
 			for($x=0;$x<sizeof($type);$x++)
 				if ( $champs[$i]===$type[$x] )
 					echo "<img style=\"vertical-align:top;\" class=\"padding\" src=\"data:image/png;base64,".$var[$i]."\"/>";
